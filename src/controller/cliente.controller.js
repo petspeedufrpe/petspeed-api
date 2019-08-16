@@ -10,6 +10,8 @@ exports.criarCliente = async function(req, res) {
         if (pessoa) {
             const cliente = await Cliente.create(profileData);
             return res.status(200).send(cliente);
+        } else {
+            return res.status(404).send("Não foi possível realizar o seu cadastro");
         }
     } catch (err) {
         res.status(500).send("Não foi possível realizar o seu cadastro");
