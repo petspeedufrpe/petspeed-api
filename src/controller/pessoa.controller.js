@@ -19,3 +19,14 @@ exports.criarPessoa = async function(req, res) {
         return res.status(500).send(err);
     }
 }
+exports.editarPessoa = async function(req, res) {
+    const idPessoa = req.params.idPessoa;
+    const profileData = req.body;
+
+    try {
+        const pessoa = await Pessoa.update(profileData, { where: { id: idpessoa}});
+        res.status(200).send("Atualizado com sucesso");
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
