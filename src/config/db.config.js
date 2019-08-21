@@ -1,14 +1,17 @@
-const {env} = process;
+const database = "petspeeddb";
+const username = "petspeed";
+const password = "petspeed2019";
+const host = "3.227.177.245";
+const dialect = "postgres";
+const port = 5432
 
 const Sequelize = require("sequelize");
-
-const sequelize = new Sequelize(env.DB_DATABASE, env.DB_USERNAME, env.DB_PASSWORD, {
-    host: env.DB_HOST,
-    port: env.DB_PORT,
-    dialect: env.DB_DIALECT,
-    operatorsAliases: false,
-    timezone: "-03:00"
-
+const sequelize = new Sequelize(database, username, password, {
+	host: host,
+	dialect: dialect,
+	operatorsAliases: false,
+	port: port,
+	timezone: "-03:00"
 });
 
 const db = {};
