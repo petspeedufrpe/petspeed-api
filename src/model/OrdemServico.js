@@ -2,6 +2,8 @@ module.exports = (sequelize, Sequelize) => {
     const OrdemServico = sequelize.define("ordemServico", {
         id: {
             type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
         },
         descricao: {
             type: Sequelize.STRING,

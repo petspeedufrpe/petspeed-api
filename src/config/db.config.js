@@ -1,4 +1,4 @@
-const database = "petspeeddb";
+const database = "petspeedDB";
 const username = "petspeed";
 const password = "petspeed2019";
 const host = "3.227.177.245";
