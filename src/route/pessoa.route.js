@@ -3,8 +3,8 @@ var router = express.Router();
 
 const pessoa = require("../controller/pessoa.controller.js");
 
-router.post("/cadastrarPessoa/:idUsuario", pessoa.criarPessoa);
+router.post("/cadastrarPessoa", pessoa.criarPessoa);
 
-router.put("/editarPessoa", pessoa.editarPessoa);
+router.put("/editarPessoa/:idpessoa", pessoa.editarPessoa);
 
 module.exports = router;

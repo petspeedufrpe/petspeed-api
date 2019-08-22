@@ -33,7 +33,10 @@ db.usuario = require("../model/Usuario.js")(sequelize, Sequelize);
 
 // CONSTRUINDO AS RELAÇÕES
 db.usuario.hasOne(db.pessoa, {foreignKey: "id"});
-db.pessoa.belongsTo(db.usuario, {foreignKey: "idUsuario"});
+db.pessoa.belongsTo(db.usuario, {foreignKey: "idusuario"});
+
+db.cliente.belongsTo(db.usuario, {foreignKey: "idusuario"});
+db.cliente.belongsTo(db.pessoa, {foreignKey:""})
 //
 
 module.exports = db;

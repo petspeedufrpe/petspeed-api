@@ -5,8 +5,8 @@ const cliente = require("../controller/cliente.controller.js");
 
 router.post("/cadastrarCliente", cliente.criarCliente);
 
-router.put("/editarCliente", cliente.editarCliente);
+router.put("/editarCliente/:idcliente", cliente.editarCliente);
 
-router.get("/encontrarAnimalPorCliente", cliente.encontrarAnimalPorCliente);
+router.get("/encontrarAnimalPorCliente/:idcliente", cliente.encontrarAnimalPorCliente);
 
 module.exports = router;

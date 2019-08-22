@@ -3,13 +3,13 @@ const Pessoa = db.pessoa;
 const Usuario = db.usuario;
 
 exports.criarPessoa = async function(req, res) {
-    const idUsuario = req.params.idUsuario;
+    const idusuario = req.body.idusuario;
     const profileData = req.body;
 
     try {
-        const usuario = await Usuario.findOne({where: {id: idUsuario}});
+        const usuario = await Usuario.findOne({where: {id: idusuario}});
         if (usuario) {
-            const pessoa = await Pessoa.create(profileData, usuario.id);
+            const pessoa = await Pessoa.create(profileData);
             return res.status(200).send(pessoa);
         } else {
             return res.status(404).send("Não foi possível encontrar o usuário.");
@@ -19,12 +19,12 @@ exports.criarPessoa = async function(req, res) {
     }
 }
 exports.editarPessoa = async function(req, res) {
-    const idPessoa = req.params.idPessoa;
+    const idpessoa = req.params.idpessoa;
     const profileData = req.body;
 
     try {
-        const pessoa = await Pessoa.update(profileData, { where: { id: idPessoa}});
-        res.status(200).send(pessoa);
+        const pessoa = await Pessoa.update(profileData, { where: { id: idpessoa}});
+        res.status(200).send("Atualizado com sucesso");
     } catch (err) {
         res.status(500).send(err);
     }
