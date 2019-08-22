@@ -8,11 +8,11 @@ module.exports = (sequelize, Sequelize) => {
         avaliacao: {
             type: Sequelize.DOUBLE,
         },
-        idUsuario: {
+        idusuario: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
-        idPessoa: {
+        idpessoa: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         }

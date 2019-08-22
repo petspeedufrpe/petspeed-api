@@ -11,14 +11,14 @@ module.exports = (sequelize, Sequelize) => {
         cpf: {
             type: Sequelize.STRING,
         },
-        idUsuario: {
+        idusuario: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         }, 
     
     }, {
         freezeTableName: true,
-        tableName: "Pessoa",
+        tableName: "pessoa",
         timestamps: false
     });
     return Pessoa;

@@ -8,15 +8,15 @@ module.exports = (sequelize, Sequelize) => {
         descricao: {
             type: Sequelize.STRING,
         },
-        idMedico: {
+        idmedico: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
-        idCliente: {
+        idcliente: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
-        idAnimal: {
+        idanimal: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         }
