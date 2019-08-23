@@ -5,7 +5,7 @@ const medico = require("../controller/medico.controller.js");
 
 router.post("/criarMedico", medico.criarMedico);
 
-router.put("/editarMedico/:idMedico", medico.editarMedico);
+router.put("/editarMedico/:idmedico", medico.editarMedico);
 
 
 module.exports = router;

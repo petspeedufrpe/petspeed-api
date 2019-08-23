@@ -23,8 +23,13 @@ exports.editarPessoa = async function(req, res) {
     const profileData = req.body;
 
     try {
-        const pessoa = await Pessoa.update(profileData, { where: { id: idpessoa}});
-        res.status(200).send("Atualizado com sucesso");
+        const pessoaEncontrada = await Pessoa.findOne({ where: { id: idpessoa}});
+        if (pessoaEncontrada) {
+            pessoaEncontrada.update(profileData);
+            return res.status(200).send("Atualizado com sucesso");
+        } else {
+            return res.status(404).send("Pessoa não encontrada.");
+        }
     } catch (err) {
         res.status(500).send(err);
     }

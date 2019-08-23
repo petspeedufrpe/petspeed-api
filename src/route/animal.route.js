@@ -5,6 +5,6 @@ const animal = require("../controller/animal.controller.js");
 
 router.post("/cadastrarAnimal", animal.criarAnimal);
 
-router.put("/atualizarAnimal", animal.editarAnimal);
+router.put("/editarAnimal/:idanimal", animal.editarAnimal);
 
 module.exports = router;

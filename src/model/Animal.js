@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DOUBLE,
         },
         nascimento: {
-            type: Sequelize.DATE,
+            type: Sequelize.DATEONLY,
         },
         idcliente: {
             type: Sequelize.INTEGER,

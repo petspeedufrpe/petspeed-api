@@ -19,18 +19,13 @@ exports.criarCliente = async function(req, res) {
     }
 }
 exports.editarCliente = async function(req, res) {
-    const idcliente = req.params.idCliente;
+    const idcliente = req.params.idcliente;
     const profileData = req.body;
-
     try {
-        const cliente = await Cliente.update(profileData, {where: {id: idcliente}});
-        if (cliente) {
+        const cliente = await Cliente.update(profileData, { where: { id: idcliente}});
             return res.status(200).send("Atualizado com sucesso");
-        } else {
-            return res.status(500).send("Não foi possível atualizar os seus dados");
-        }
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send("entrou no catch");
     }
 }
 exports.encontrarAnimalPorCliente = async function(req, res) {

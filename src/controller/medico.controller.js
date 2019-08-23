@@ -4,11 +4,11 @@ const Pessoa = db.pessoa;
 
 
 exports.criarMedico = async function(req, res) {
-    const idPessoa = req.body.idPessoa;
+    const idpessoa = req.body.idpessoa;
     const profileData = req.body;
 
     try {
-        const pessoa = await Pessoa.findOne(idPessoa);
+        const pessoa = await Pessoa.findOne({where: {idpessoa}});
         if(pessoa) {
             const medico = await Medico.create(profileData);
             return res.status(200).send(medico);
@@ -20,12 +20,13 @@ exports.criarMedico = async function(req, res) {
     }
 }
 exports.editarMedico = async function(req, res) {
-    const idMedico = req.params.idCliente;
+    const idmedico = req.params.idmedico;
     const profileData = req.body;
 
     try {
-        const medico = await Medico.update(profileData, {where:{id: idMedico}});
-        if (medico) {
+        const medicoEncontrado = await Medico.findOne({where:{id: idmedico}});
+        if (medicoEncontrado) {
+            medicoEncontrado.update(profileData);
             return res.status(200).send("Dados atualizados com sucesso");
         } else {
             return res.status(500).send("Erro ao atualizar");
