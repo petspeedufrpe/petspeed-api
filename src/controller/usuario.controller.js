@@ -15,11 +15,11 @@ exports.criarUsuario = async function(req, res) {
         return res.status(500).send(err)
     }
 }
-exports.encontrarUsuarioPorId = async function(req, res) {
-    const idUsuario = req.params.idUsuario;
-
+exports.encontrarUsuarioPorId = async (req, res) => {
+    const id = req.params.idUsuario;
+    console.log(id)
     try {
-        const usuario = await Usuario.findOne({where: {id: idUsuario}});
+        const usuario = await Usuario.findOne({where: {id}});
         if (usuario) {
             return res.status(200).send(usuario);
         } else {
@@ -28,4 +28,22 @@ exports.encontrarUsuarioPorId = async function(req, res) {
     } catch (err) {
         res.status(500).send(err);
     }
+}
+
+exports.deletarUsuarioPorId = async (req, res) =>{
+    const id = req.params.idUsuario;
+    
+    try{
+    const usuario = await Usuario.findOne({where:{id}});
+
+    if (usuario) {
+        usuario.destroy();
+        return res.status(200).send(usuario);
+    }
+    return res.status(400).send({message:"Usuario não existe"})
+    }
+    catch(err){
+        return res.status(500).send(err);
+    }
+
 }

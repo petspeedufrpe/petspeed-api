@@ -7,4 +7,6 @@ router.post("/cadastrarUsuario", usuario.criarUsuario);
 
 router.get("/encontrarUsuarioPorId/:idUsuario", usuario.encontrarUsuarioPorId);
 
+router.delete('/deletarUsuarioPorId/:idUsuario', usuario.deletarUsuarioPorId);
+
 module.exports = router;
