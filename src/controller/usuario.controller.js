@@ -1,10 +1,14 @@
 const db = require("../config/db.config.js");
+const bcrypt = require('bcrypt');
 const Usuario = db.usuario;
 
 exports.criarUsuario = async function(req, res) {
     const profileData = req.body;
 
     try {
+        if(profileData){
+            profileData.senha = await bcrypt.hash(profileData.senha,10)
+        }
         const usuario = await Usuario.create(profileData);
         if (usuario) {
             return res.status(200).send(usuario);

@@ -1,4 +1,5 @@
 const db = require("../config/db.config.js");
+const bcrypt = require('bcrypt');
 const Cliente = db.cliente;
 const Pessoa = db.pessoa;
 const Animal = db.animal;
@@ -64,7 +65,7 @@ exports.login = async function(req,res){
         if(!cliente){ 
             return res.status(400).send("Cliente não encontrado");
         }
-        if(usuario.senha === req.body.senha){
+        if(bcrypt.compare(req.body.senha,usuario.senha)){
           return res.status(200).send("Logado com Sucesso");
           //TODO
         }
