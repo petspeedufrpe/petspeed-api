@@ -25,5 +25,5 @@ app.use("/usuario", usuario);
 app.use("/pessoa", pessoa);
 app.use("/animal", animal);
 app.use("/cliente", cliente);
-app.listen(4000);
+app.listen(process.env.PORT || 4000);
 module.exports = app;
