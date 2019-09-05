@@ -1,16 +1,9 @@
-const Sequelize = require("sequelize");;
-const env = {process}
-const database = env.DB_DATABASE;
-const username = env.DB_USERNAME;
-const password = env.DB_PASSWORD;
-const host = env.DB_HOST;
-const dialect = env.DB_DIALECT;
-const port = env.PORT;
-const sequelize = new Sequelize(database, username, password, {
-	host: host,
-	dialect: dialect,
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+	host: process.env.DB_HOST,
+	dialect: process.env.DB_DIALECT,
 	operatorsAliases: false,
-	port: port,
+	port: process.env.PORT,
 	timezone: "-03:00"
 });
 
