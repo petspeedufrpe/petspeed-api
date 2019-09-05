@@ -1,6 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 
+const dotenv = require("dotenv-safe");
+
+if (!process.env.NODE_ENV) {
+	dotenv.config();
+}
+
+const PORT = process.env.PORT || 4000;
 // IMPORTANDO ROTAS
 const usuario = require("../petspeed-api/src/route/usuario.route.js");
 const animal = require("../petspeed-api/src/route/animal.route.js");
@@ -25,5 +32,5 @@ app.use("/usuario", usuario);
 app.use("/pessoa", pessoa);
 app.use("/animal", animal);
 app.use("/cliente", cliente);
-app.listen(process.env.PORT || 4000);
+app.listen(PORT);
 module.exports = app;

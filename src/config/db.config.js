@@ -1,10 +1,10 @@
-const Sequelize = require("sequelize");
-const database = "petspeedDB";
-const username = "petspeed";
-const password = "petspeed2019";
-const host = "petspeeddb.cmdvmzdmn05x.us-east-1.rds.amazonaws.com";
-const dialect = "postgres";
-const port = '5432';
+const Sequelize = require("sequelize");;
+const env = {process}
+const database = env.DB_DATABASE;
+const username = env.DB_USERNAME;
+const password = env.DB_PASSWORD;
+const host = env.DB_HOST;
+const dialect = env.DB_DIALECT;
 const sequelize = new Sequelize(database, username, password, {
 	host: host,
 	dialect: dialect,
