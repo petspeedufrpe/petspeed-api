@@ -5,6 +5,7 @@ const username = env.DB_USERNAME;
 const password = env.DB_PASSWORD;
 const host = env.DB_HOST;
 const dialect = env.DB_DIALECT;
+const port = env.PORT;
 const sequelize = new Sequelize(database, username, password, {
 	host: host,
 	dialect: dialect,
