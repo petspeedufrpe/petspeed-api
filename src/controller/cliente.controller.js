@@ -51,7 +51,7 @@ exports.login = async function(req,res){
             where: { 
                 email: emailUsuario
             }
-        })
+        });
 
         if(!usuario){
             return res.status(400).send("Email não cadastrado no sistema");
