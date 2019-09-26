@@ -7,7 +7,7 @@ if (!process.env.NODE_ENV) {
 	dotenv.config();
 }
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5432;
 // IMPORTANDO ROTAS
 const usuario = require("./src/route/usuario.route.js");
 const animal = require("./src/route/animal.route.js");
