@@ -9,10 +9,10 @@ if (!process.env.NODE_ENV) {
 
 const PORT = process.env.PORT || 4000;
 // IMPORTANDO ROTAS
-const usuario = require("../petspeed-api/src/route/usuario.route.js");
-const animal = require("../petspeed-api/src/route/animal.route.js");
-const pessoa = require("../petspeed-api/src/route/pessoa.route.js");
-const cliente = require("../petspeed-api/src/route/cliente.route.js");
+const usuario = require("./petspeed-api/src/route/usuario.route.js");
+const animal = require("./petspeed-api/src/route/animal.route.js");
+const pessoa = require("./petspeed-api/src/route/pessoa.route.js");
+const cliente = require("./petspeed-api/src/route/cliente.route.js");
 //
 
 var app = express();
