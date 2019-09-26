@@ -9,10 +9,10 @@ if (!process.env.NODE_ENV) {
 
 const PORT = process.env.PORT || 4000;
 // IMPORTANDO ROTAS
-const usuario = require("./route/usuario.route.js");
-const animal = require("./route/animal.route.js");
-const pessoa = require("./route/pessoa.route.js");
-const cliente = require("./route/cliente.route.js");
+const usuario = require("./src/route/usuario.route.js");
+const animal = require("./src/route/animal.route.js");
+const pessoa = require("./src/route/pessoa.route.js");
+const cliente = require("./src/route/cliente.route.js");
 //
 
 var app = express();
