@@ -62,13 +62,14 @@ exports.login = async function(req,res){
         if(!cliente){ 
             return res.status(400).send("Cliente não encontrado");
         }
-        if(bcrypt.compare(profileData.senha,usuario.senha)){
+        const check = await bcrypt.compare(profileData.senha,usuario.senha)
+        if(check){
           return res.status(200).send("Logado com Sucesso");
         }
         
         return res.status(400).send("Dados inválidos");
     }
     catch(err){
-        return res.status(500).send({message:"Bad Gateway", profileData})
+        return res.status(500).send({message:"Bad Gateway"})
     }
 }
