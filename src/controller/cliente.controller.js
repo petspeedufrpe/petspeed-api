@@ -51,28 +51,26 @@ exports.login = async function(req,res){
             where: { 
                 email: emailUsuario
             }
-        })
-
+        });
         if(!usuario){
-            return res.status(400).send("Email não cadastrado no sistema");
+            return res.status(400).send({message:"Email não cadastrado no sistema"});
         }
-
         const cliente = await Cliente.findOne({
             where: {
-                 idusuario: usuario.id}
+                 idUsuario: usuario.id}
         });
-
         if(!cliente){ 
-            return res.status(400).send("Cliente não encontrado");
+            return res.status(400).send({message:"Cliente não encontrado"});
         }
-        if(bcrypt.compare(req.body.senha,usuario.senha)){
-          return res.status(200).send("Logado com Sucesso");
-          //TODO
+        const check = await bcrypt.compare(profileData.senha,usuario.senha);
+        console.log(check);
+        if(check){
+          return res.status(200).send(usuario);
         }
         
-        return res.status(400).send("Dados inválidos");
+        return res.status(400).send({message:"Dados inválidos"});
     }
     catch(err){
-        return res.status(500).send("Bad Gateway")
+        return res.status(500).send({message:"Bad Gateway"})
     }
 }
