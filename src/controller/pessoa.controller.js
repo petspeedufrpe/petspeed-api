@@ -1,6 +1,7 @@
 const db = require("../config/db.config.js");
 const Pessoa = db.pessoa;
 const Usuario = db.usuario;
+const Endereco = db.endereco;
 
 exports.criarPessoa = async function(req, res) {
     const idusuario = req.body.idusuario;
@@ -32,5 +33,24 @@ exports.editarPessoa = async function(req, res) {
         }
     } catch (err) {
         res.status(500).send(err);
+    }
+}
+
+exports.cadastrarEndereco = async function(req, res) {
+    const { cidade, bairro, rua, numero, idpessoa } = req.body;
+    try {
+        const pessoa = await Pessoa.findByPk(idpessoa);
+        if (pessoa) {
+            const endereco = await Endereco.create(
+                {
+                    cidade, bairro, rua, numero, idpessoa
+                }
+            );
+            return res.status(200).send(endereco);
+        } return res.status(404).send("Pessoa não encontrada");
+        
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send("Não foi possível cadastrar o endereço"); 
     }
 }
