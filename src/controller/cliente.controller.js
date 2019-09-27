@@ -52,20 +52,20 @@ exports.login = async function(req,res){
                 email: emailUsuario
             }
         });
-
+        console.log(usuario);
         if(!usuario){
             return res.status(400).send("Email não cadastrado no sistema");
         }
-
         const cliente = await Cliente.findOne({
             where: {
                  idusuario: usuario.id}
         });
-
+        console.log(cliente);
         if(!cliente){ 
             return res.status(400).send("Cliente não encontrado");
         }
         if(bcrypt.compare(profileData.senha,usuario.senha)){
+            console.log(bcrypt.compare(profileData.senha,usuario.senha));
           return res.status(200).send("Logado com Sucesso");
         }
         
