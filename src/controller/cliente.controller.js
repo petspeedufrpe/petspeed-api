@@ -62,7 +62,8 @@ exports.login = async function(req,res){
         if(!cliente){ 
             return res.status(400).send("Cliente não encontrado");
         }
-        const check = await bcrypt.compare(profileData.senha,usuario.senha)
+        const check = await bcrypt.compare(profileData.senha,usuario.senha);
+        console.log(check);
         if(check){
           return res.status(200).send("Logado com Sucesso");
         }
