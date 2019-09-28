@@ -2,6 +2,7 @@ const db = require("../config/db.config.js");
 const bcrypt = require('bcrypt');
 const Usuario = db.usuario;
 const Cliente = db.cliente;
+var jwt = require('jsonwebtoken');
 
 exports.criarUsuario = async function(req, res) {
     const profileData = req.body;
@@ -74,7 +75,18 @@ exports.login = async function(req,res){
         const check = await bcrypt.compare(profileData.senha,usuario.senha);
         console.log(check);
         if(check){
-          return res.status(200).send(usuario);
+            const { id } = usuario
+            const token = jwt.sign({ id }, process.env.SECRET, {
+                expiresIn: 86400 // tempo em segundos (1 dia)
+              });
+              return res.status(200).send({ 
+                  auth: true,
+                  token: token, 
+                  user: {
+                      id: usuario.id, 
+                      email: usuario.email
+                  } 
+              });
         }
         
         return res.status(400).send({message:"Dados inválidos"});
