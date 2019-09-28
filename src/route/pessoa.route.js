@@ -7,6 +7,6 @@ router.post("/cadastrarPessoa", pessoa.criarPessoa);
 
 router.put("/editarPessoa/:idpessoa", pessoa.editarPessoa);
 
-router.post("/cadastrarEndereco", pessoa.cadastrarEndereco);
+router.post("/cadastrarEndereco", pessoa.create);
 
 module.exports = router;

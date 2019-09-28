@@ -1,7 +1,12 @@
 const db = require("../config/db.config.js");
+const events = require("events");
+const eventEmitter = new events.EventEmitter();
 const Pessoa = db.pessoa;
 const Usuario = db.usuario;
 const Endereco = db.endereco;
+const googleMapsClient = require("@google/maps").createClient({
+	key: process.env.cloudApiKey
+});
 
 exports.criarPessoa = async function(req, res) {
     const idusuario = req.body.idusuario;
@@ -20,7 +25,7 @@ exports.criarPessoa = async function(req, res) {
     }
 }
 exports.editarPessoa = async function(req, res) {
-    const idpessoa = req.params.idpessoa;
+    const { idpessoa } = req.params
     const profileData = req.body;
 
     try {
@@ -36,14 +41,15 @@ exports.editarPessoa = async function(req, res) {
     }
 }
 
-exports.cadastrarEndereco = async function(req, res) {
-    const { cidade, bairro, rua, numero, idpessoa } = req.body;
+async function dbInsert(req, res, data) {
+    const { cidade, bairro, logradouro, numero, idpessoa } = req.body;
+    const {lat: latitude, lng:longitude} = data
     try {
         const pessoa = await Pessoa.findByPk(idpessoa);
         if (pessoa) {
             const endereco = await Endereco.create(
                 {
-                    cidade, bairro, rua, numero, idpessoa
+                    cidade, bairro, logradouro, numero, idpessoa, latitude, longitude
                 }
             );
             return res.status(200).send(endereco);
@@ -54,3 +60,23 @@ exports.cadastrarEndereco = async function(req, res) {
         return res.status(500).send("Não foi possível cadastrar o endereço"); 
     }
 }
+
+exports.create = async function(req, res) {
+    const { cidade, bairro, logradouro, numero, } = req.body;
+	await googleMapsClient.geocode({ address: `${logradouro} ${numero} ${bairro} ${cidade}` }, function(
+		err,
+		response
+	) {
+		if (!err) {
+			if (response.json.status === "ZERO_RESULTS") {
+				res.status(400).send("Endereço mal formatado");
+			} else {
+				const ret = response.json.results[0].geometry.location;
+				eventEmitter.addListener("coords", dbInsert(req, res, ret));
+				eventEmitter.emit("coords");
+			}
+		} else {
+			res.status(400).send("Endereco vazio");
+		}
+	});
+};
