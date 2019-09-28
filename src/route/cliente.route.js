@@ -10,6 +10,4 @@ router.put("/editarCliente/:idcliente", cliente.editarCliente);
 
 router.get("/encontrarAnimalPorCliente/:idcliente", cliente.encontrarAnimalPorCliente);
 
-router.post("/login", cliente.login);
-
 module.exports = router;

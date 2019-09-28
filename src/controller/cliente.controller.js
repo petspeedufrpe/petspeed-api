@@ -1,9 +1,7 @@
 const db = require("../config/db.config.js");
-const bcrypt = require('bcrypt');
 const Cliente = db.cliente;
 const Pessoa = db.pessoa;
-const Animal = db.animal;
-const Usuario = db.usuario;
+const Animal = db.animal
 
 exports.criarCliente = async function(req, res) {
     const idpessoa = req.body.idpessoa;
@@ -40,37 +38,5 @@ exports.encontrarAnimalPorCliente = async function(req, res) {
         }
     } catch (err) {
         res.status(500).send(err);
-    }
-}
-
-exports.login = async function(req,res){
-    const profileData = req.body;
-    const {email:emailUsuario} = profileData;
-    try{ 
-        const usuario = await Usuario.findOne({
-            where: { 
-                email: emailUsuario
-            }
-        });
-        if(!usuario){
-            return res.status(400).send({message:"Email não cadastrado no sistema"});
-        }
-        const cliente = await Cliente.findOne({
-            where: {
-                 idUsuario: usuario.id}
-        });
-        if(!cliente){ 
-            return res.status(400).send({message:"Cliente não encontrado"});
-        }
-        const check = await bcrypt.compare(profileData.senha,usuario.senha);
-        console.log(check);
-        if(check){
-          return res.status(200).send(usuario);
-        }
-        
-        return res.status(400).send({message:"Dados inválidos"});
-    }
-    catch(err){
-        return res.status(500).send({message:"Bad Gateway"})
     }
 }

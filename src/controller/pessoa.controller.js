@@ -5,7 +5,7 @@ const Pessoa = db.pessoa;
 const Usuario = db.usuario;
 const Endereco = db.endereco;
 const googleMapsClient = require("@google/maps").createClient({
-	key: process.env.cloudApiKey
+	key: process.env.API_KEY
 });
 
 exports.criarPessoa = async function(req, res) {

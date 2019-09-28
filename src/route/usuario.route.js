@@ -9,4 +9,6 @@ router.get("/encontrarUsuarioPorId/:idUsuario", usuario.encontrarUsuarioPorId);
 
 router.delete('/deletarUsuarioPorId/:idUsuario', usuario.deletarUsuarioPorId);
 
+router.post("/login", usuario.login);
+
 module.exports = router;
