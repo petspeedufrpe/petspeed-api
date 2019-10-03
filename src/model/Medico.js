@@ -13,6 +13,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         telefone: {
             type: Sequelize.STRING
+        },
+        uf: {
+            type: Sequelize.STRING
         }
     }, {
         freezeTableName: true,
