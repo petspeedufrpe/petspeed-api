@@ -5,10 +5,13 @@ const Pessoa = db.pessoa;
 
 exports.criarMedico = async function(req, res) {
     const idpessoa = req.body.idpessoa;
+    const crmv = req.body.crmv;
+    const uf = req.body.uf;
     const profileData = req.body;
 
     try {
         const pessoa = await Pessoa.findOne({where: {idpessoa}});
+        const existeCRMV = await Medico.findOne({where: {crmv: crmv}, {uf: uf}});
         if(pessoa) {
             const medico = await Medico.create(profileData);
             return res.status(200).send(medico);
