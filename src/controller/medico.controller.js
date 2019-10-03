@@ -12,7 +12,7 @@ exports.criarMedico = async function(req, res) {
     try {
         const pessoa = await Pessoa.findOne({where: {idpessoa}});
         const existeCRMV = await Medico.findOne({where: {crmv: crmv}, {uf: uf}});
-        if(pessoa) {
+        if(pessoa && != existeCRMV) {
             const medico = await Medico.create(profileData);
             return res.status(200).send(medico);
         } else {
