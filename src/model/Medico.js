@@ -13,6 +13,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         uf: {
             type: Sequelize.STRING
+        },
+        idpessoa: {
+            type: Sequelize.INTEGER,
+            foreignKey: true,
         }
     }, {
         freezeTableName: true,
