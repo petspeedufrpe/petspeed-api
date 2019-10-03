@@ -13,6 +13,7 @@ const usuario = require("./src/route/usuario.route.js");
 const animal = require("./src/route/animal.route.js");
 const pessoa = require("./src/route/pessoa.route.js");
 const cliente = require("./src/route/cliente.route.js");
+const medico = require("./src/route/medico.route.js");
 //
 
 var app = express();
@@ -32,6 +33,6 @@ app.use("/usuario", usuario);
 app.use("/pessoa", pessoa);
 app.use("/animal", animal);
 app.use("/cliente", cliente);
+app.use("/medico", medico);
 app.listen(PORT);
-console.log("Server escutando a porta: ", PORT);
 module.exports = app;
