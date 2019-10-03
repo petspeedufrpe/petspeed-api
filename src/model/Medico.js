@@ -5,9 +5,6 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        avaliacao: {
-            type: Sequelize.DOUBLE,
-        },
         crmv: {
             type: Sequelize.STRING
         },
