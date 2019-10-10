@@ -8,6 +8,6 @@ router.post("/cadastrarPessoa", pessoa.criarPessoa);
 
 router.put("/editarPessoa/:idpessoa", pessoa.editarPessoa);
 
-router.post("/cadastrarEndereco", verifyJWT, pessoa.create);
+router.post("/cadastrarEndereco", pessoa.create);
 
 module.exports = router;
