@@ -80,17 +80,3 @@ exports.create = async function(req, res) {
 		}
 	});
 };
-
-exports.encontrarAnimalPorPessoa = async function(req, res) {
-	const {idPessoa} = req.params;
-    try {
-        const animais = await Animal.findAll({where: {idPessoa});
-        if (animais) {
-            return res.status(200).send(animais);
-        } else {
-            res.status(404).send("Cliente não possui nenhum animal cadastrado")
-        }
-    } catch (err) {
-        res.status(500).send(err);
-    }
-}
