@@ -2,6 +2,8 @@ const db = require("../config/db.config.js");
 const bcrypt = require('bcrypt');
 const Usuario = db.usuario;
 const Cliente = db.cliente;
+const Pessoa = db.pessoa;
+const Medico = db.medico;
 var jwt = require('jsonwebtoken');
 
 exports.criarUsuario = async function(req, res) {
@@ -55,12 +57,17 @@ exports.deletarUsuarioPorId = async (req, res) =>{
 
 exports.login = async function(req,res){
     const profileData = req.body;
+    let account = null;
     const {email:emailUsuario} = profileData;
     try{ 
         const usuario = await Usuario.findOne({
             where: { 
                 email: emailUsuario
             }
+        });
+        const pessoa = await Pessoa.findOne({
+            where: {
+                 idUsuario: usuario.id}
         });
         if(!usuario){
             return res.status(400).send({message:"Email não cadastrado no sistema"});
@@ -70,7 +77,17 @@ exports.login = async function(req,res){
                  idUsuario: usuario.id}
         });
         if(!cliente){ 
-            return res.status(400).send({message:"Cliente não encontrado"});
+            const medico = await Medico.findOne({
+            where: {
+                 idPessoa: pessoa.id}
+        });
+           if(!medico){
+               return res.status(400).send({message:"dados inváldios"});
+           }else{
+               account = 'medico'
+           } 
+        }else{
+            account = 'cliente'
         }
         const check = await bcrypt.compare(profileData.senha,usuario.senha);
         console.log(check);
@@ -83,8 +100,9 @@ exports.login = async function(req,res){
                   auth: true,
                   token: token, 
                   user: {
-                      id: usuario.id, 
-                      email: usuario.email
+                      id: pessoa.id, 
+                      email: usuario.email,
+                      account
                   } 
               });
         }
@@ -92,6 +110,6 @@ exports.login = async function(req,res){
         return res.status(400).send({message:"Dados inválidos"});
     }
     catch(err){
-        return res.status(500).send({message:"Bad Gateway"})
+        return res.status(500).send(err.message)
     }
 }
