@@ -30,13 +30,13 @@ exports.editarCliente = async function(req, res) {
 }
 exports.encontrarAnimalPorCliente = async function(req, res) {
     try {
-        const animais = await Animal.findAll({where: {idcliente: req.params.idcliente}, attributes: ['id','nome', 'raca', 'peso', 'nascimento']});
+        const animais = await Animal.findAll({where: {idpessoa: req.params.idpessoa}, attributes: ['id','nome', 'raca', 'peso', 'nascimento']});
         if (animais) {
             return res.status(200).send(animais);
         } else {
             res.status(404).send("Cliente não possui nenhum animal cadastrado")
         }
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send(req.params);
     }
 }
