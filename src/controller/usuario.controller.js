@@ -65,12 +65,11 @@ exports.login = async function(req,res){
                 email: emailUsuario
             }
         });
-        if(usuario){
-            const pessoa = await Pessoa.findOne({
+        const pessoa = await Pessoa.findOne({
             where: {
                  idUsuario: usuario.id}
         });
-        }else{
+        if(!usuario){
             return res.status(400).send({message:"Email não cadastrado no sistema"});
         }
         const cliente = await Cliente.findOne({
