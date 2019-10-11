@@ -10,6 +10,4 @@ router.put("/editarPessoa/:idpessoa", pessoa.editarPessoa);
 
 router.post("/cadastrarEndereco", pessoa.create);
 
-router.get("/encontrarAnimalPorPessoa/:idPessoa",pessoa.encontrarAnimalPorPessoa);
-
 module.exports = router;
