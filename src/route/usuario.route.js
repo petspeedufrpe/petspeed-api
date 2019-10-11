@@ -13,4 +13,6 @@ router.delete('/deletarUsuarioPorId/:idUsuario', usuario.deletarUsuarioPorId);
 
 router.post("/login", usuario.login);
 
+router.post("/cadastrarCliente", usuario.cadastrarCliente);
+
 module.exports = router;

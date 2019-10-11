@@ -3,11 +3,11 @@ const Cliente = db.cliente;
 const Pessoa = db.pessoa;
 const Animal = db.animal
 
-exports.criarCliente = async function(req, res) {
+exports.criarCliente = async function (req, res) {
     const idpessoa = req.body.idpessoa;
     const profileData = req.body;
     try {
-        const pessoa = await Pessoa.findOne({where: {id: idpessoa}});
+        const pessoa = await Pessoa.findOne({ where: { id: idpessoa } });
         if (pessoa) {
             const cliente = await Cliente.create(profileData);
             return res.status(200).send(cliente);
@@ -18,19 +18,19 @@ exports.criarCliente = async function(req, res) {
         res.status(500).send("entrou aqui");
     }
 }
-exports.editarCliente = async function(req, res) {
+exports.editarCliente = async function (req, res) {
     const idcliente = req.params.idcliente;
     const profileData = req.body;
     try {
-        const cliente = await Cliente.update(profileData, { where: { id: idcliente}});
-            return res.status(200).send("Atualizado com sucesso");
+        const cliente = await Cliente.update(profileData, { where: { id: idcliente } });
+        return res.status(200).send("Atualizado com sucesso");
     } catch (err) {
         res.status(500).send("entrou no catch");
     }
 }
-exports.encontrarAnimalPorCliente = async function(req, res) {
+exports.encontrarAnimalPorCliente = async function (req, res) {
     try {
-        const animais = await Animal.findAll({where: {idpessoa: req.params.idpessoa}, attributes: ['id','nome', 'raca', 'peso', 'nascimento']});
+        const animais = await Animal.findAll({ where: { idpessoa: req.params.idpessoa }, attributes: ['id', 'nome', 'raca', 'peso', 'nascimento'] });
         if (animais) {
             return res.status(200).send(animais);
         } else {
@@ -40,3 +40,5 @@ exports.encontrarAnimalPorCliente = async function(req, res) {
         res.status(500).send(req.params);
     }
 }
+
+

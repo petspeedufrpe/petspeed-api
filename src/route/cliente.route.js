@@ -8,6 +8,7 @@ router.post("/cadastrarCliente", cliente.criarCliente);
 
 router.put("/editarCliente/:idcliente", cliente.editarCliente);
 
-router.get("/encontrarAnimalPorCliente/:idpessoa", cliente.encontrarAnimalPorCliente);
+router.get("/:idpessoa/animais", cliente.encontrarAnimalPorCliente);
+
 
 module.exports = router;

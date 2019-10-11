@@ -6,6 +6,47 @@ const Pessoa = db.pessoa;
 const Medico = db.medico;
 var jwt = require('jsonwebtoken');
 
+exports.cadastrarCliente = async function (req, res) {
+    let transaction;
+    try {
+        transaction = await db.sequelize.transaction();
+        // Usuario
+        const { usuarioData } = req.body;
+        let { senha, email } = usuarioData;
+        senha = await bcrypt.hash(senha, 10);
+        let usuario = await Usuario.findOne({ where: { email } });
+        if (!usuario) {
+            usuario = await Usuario.create({ email: email, senha: senha }, { transaction });
+        } else {
+            return res.status(403).send("E-mail já está em uso.");
+        }
+        // Pessoa
+        const { pessoaData } = req.body;
+        const { nome, cpf } = pessoaData;
+        let pessoa = await Pessoa.findOne({ where: { cpf } });
+        if (!pessoa) {
+            pessoa = await Pessoa.create({
+                nome: nome,
+                cpf: cpf,
+                idusuario: usuario.id
+            }, { transaction });
+        } else {
+            return res.status(403).send("CPF já cadastrado.");
+        }
+        // Cliente
+        const cliente = await Cliente.create({
+            idusuario: usuario.id,
+            idpessoa: pessoa.id
+        }, { transaction });
+        await transaction.commit();
+        return res.status(200).send({ "data": { usuario, pessoa, cliente } });
+    } catch (err) {
+        console.log(err);
+        await transaction.rollback();
+        return res.status(500).send("Não foi possível realizar o cadastro do cliente.");
+    }
+}
+
 exports.criarUsuario = async function (req, res) {
     const profileData = req.body;
     const emailUsuario = req.body.email;

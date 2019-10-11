@@ -26,21 +26,21 @@ db.usuario = require("../model/Usuario.js")(sequelize, Sequelize);
 
 
 // CONSTRUINDO AS RELAÇÕES
-db.usuario.hasOne(db.pessoa, {foreignKey: "id"});
-db.pessoa.belongsTo(db.usuario, {foreignKey: "idusuario"});
+db.usuario.hasOne(db.pessoa, { foreignKey: "id" });
+db.pessoa.belongsTo(db.usuario, { foreignKey: "idusuario" });
 
-db.pessoa.hasOne(db.cliente, {foreignKey: "id"});
-db.usuario.hasOne(db.cliente, {foreignKey: "id"});
+db.pessoa.hasOne(db.cliente, { foreignKey: "id" });
+db.usuario.hasOne(db.cliente, { foreignKey: "id" });
 
-db.cliente.belongsTo(db.usuario, {foreignKey: "idusuario"});
-db.cliente.belongsTo(db.pessoa, {foreignKey: "idpessoa"});
+db.cliente.belongsTo(db.usuario, { foreignKey: "idusuario" });
+db.cliente.belongsTo(db.pessoa, { foreignKey: "idpessoa" });
 
-db.medico.belongsTo(db.pessoa, {foreignKey: "idpessoa"});
+db.medico.belongsTo(db.pessoa, { foreignKey: "idpessoa" });
 
-db.pessoa.hasOne(db.endereco, {foreignKey: "idpessoa"});
+db.pessoa.hasOne(db.endereco, { foreignKey: "idpessoa" });
 
-db.cliente.hasOne(db.animal, {foreignKey: "id"});
-db.animal.belongsTo(db.cliente, {foreignKey: "idcliente"});
+db.cliente.hasOne(db.animal, { foreignKey: "id" });
+db.animal.belongsTo(db.cliente, { foreignKey: "idcliente" });
 //
 
 module.exports = db;

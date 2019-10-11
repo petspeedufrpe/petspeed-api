@@ -14,8 +14,8 @@ module.exports = (sequelize, Sequelize) => {
         idusuario: {
             type: Sequelize.INTEGER,
             foreignKey: true,
-        }, 
-    
+        },
+
     }, {
         freezeTableName: true,
         tableName: "pessoa",
