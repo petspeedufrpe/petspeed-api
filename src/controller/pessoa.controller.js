@@ -82,7 +82,7 @@ exports.create = async function(req, res) {
 };
 
 exports.encontrarAnimalPorPessoa = async function(req, res) {
-	const idPessoa = req.params.idPessoa;
+	const {idPessoa} = req.params;
     try {
         const animais = await Animal.findAll({where: {idPessoa});
         if (animais) {
