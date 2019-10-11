@@ -9,5 +9,7 @@ router.put("/editarMedico/:idmedico", medico.editarMedico);
 
 router.get("/all", medico.findAllMedicos);
 
+router.post("/findNome", medico.findMedicoByNome);
+
 module.exports = router;
 

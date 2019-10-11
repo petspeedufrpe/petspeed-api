@@ -3,6 +3,7 @@ const Medico = db.medico;
 const Pessoa = db.pessoa;
 const Endereco = db.endereco;
 const Usuario = db.usuario;
+const Op = db.op;
 
 
 exports.criarMedico = async function(req, res) {
@@ -53,5 +54,22 @@ exports.findAllMedicos = async function(req, res) {
         console.log(err);
         return res.status(500)
         .send("Não foi possível retornar a lista de médicos veterinários");
+    }
+}
+
+exports.findMedicoByNome = async function(req, res){
+    try {
+        const medicos = await Medico.findAll({
+            include: [
+                {model: Pessoa, where: { nome : {[Op.startsWith] : req.body.nome}}}
+            ]
+        });
+        if (medicos.length) {
+            return res.status(200).send(medicos);
+        } return res.status(404).send("A busca não encontrou nenhum médico veterinário.");
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send("Errou ao buscar médicos veterinários");
+        
     }
 }

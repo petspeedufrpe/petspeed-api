@@ -10,7 +10,8 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.op = Sequelize.op;
+db.op = Sequelize.Op;
+
 
 // IMPORTAÇÃO DOS MODELS
 db.animal = require("../model/Animal.js")(sequelize, Sequelize);
