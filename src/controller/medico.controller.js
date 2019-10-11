@@ -1,6 +1,8 @@
 const db = require("../config/db.config.js");
 const Medico = db.medico;
 const Pessoa = db.pessoa;
+const Endereco = db.endereco;
+const Usuario = db.usuario;
 
 
 exports.criarMedico = async function(req, res) {
@@ -36,5 +38,20 @@ exports.editarMedico = async function(req, res) {
         }
     } catch (err) {
         return res.status(500).send(err);
+    }
+}
+
+exports.findAllMedicos = async function(req, res) {
+    try {
+        const medicos = await Medico.findAll({
+            include: [
+                {model: Pessoa, include: [Endereco, Usuario]},
+            ]
+        });
+        return res.status(200).send(medicos);
+    } catch (err) {
+        console.log(err);
+        return res.status(500)
+        .send("Não foi possível retornar a lista de médicos veterinários");
     }
 }

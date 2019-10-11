@@ -7,6 +7,7 @@ router.post("/criarMedico", medico.criarMedico);
 
 router.put("/editarMedico/:idmedico", medico.editarMedico);
 
+router.get("/all", medico.findAllMedicos);
 
 module.exports = router;
 
