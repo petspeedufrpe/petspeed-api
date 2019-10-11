@@ -8,11 +8,18 @@ var jwt = require('jsonwebtoken');
 
 exports.criarUsuario = async function(req, res) {
     const profileData = req.body;
+    const emailUsuario = req.body.email;
     try {
         if(profileData){
             profileData.senha = await bcrypt.hash(profileData.senha,10)
         }
-        const usuario = await Usuario.create(profileData);
+        const usuarioExistente = await Usuario.findOne({where:{email: emailUsuario}})
+        if (!usuarioExistente) {
+          const usuario = await Usuario.create(profileData);
+        }
+        else {
+            return res.status(500).send("Já existe este e-mail cadastrado no sistema")
+        }
         if (usuario) {
             return res.status(200).send(usuario);
         } else {
