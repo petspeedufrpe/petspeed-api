@@ -4,19 +4,19 @@ const Cliente = db.cliente;
 const Pessoa = db.pessoa;
 
 exports.criarAnimal = async function(req, res) {
-    const idcliente = req.body.idcliente;
+    const idPessoa = req.body.idPessoa;
     const profileData = req.body;
 
     try {
-        const cliente = await Cliente.findOne({where: {id: idcliente}});
-        if (cliente) {
+        const pessoa = await Pessoa.findOne({where: {id: idPessoa}});
+        if (pessoa) {
             const animal = await Animal.create(profileData);
             res.status(200).send("Animal cadastrado com sucesso");
         } else {
-            res.status(404).send("O cadastro não pôde ser realizado");
+            res.status(404).send("Não foi possível cadastrar");
         }
     } catch (err) {
-        res.status(500).send("entrou no catch");
+        res.status(500).send(err.message);
     }
 }
 exports.editarAnimal = async function(req, res) {

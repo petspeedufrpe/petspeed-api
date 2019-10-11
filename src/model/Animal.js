@@ -15,9 +15,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DOUBLE,
         },
         nascimento: {
-            type: Sequelize.DATEONLY,
+            type: Sequelize.INTEGER,
         },
-        idcliente: {
+        idPessoa: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         }
