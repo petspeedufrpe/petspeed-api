@@ -42,17 +42,17 @@ exports.editarPessoa = async function (req, res) {
 }
 
 async function dbInsert(req, res, data) {
-    const { cep, cidade, bairro, logradouro, numero, idpessoa } = req.body;
+    const { endereco, complemento, idpessoa } = req.body;
     const { lat: latitude, lng: longitude } = data
     try {
         const pessoa = await Pessoa.findByPk(idpessoa);
         if (pessoa) {
-            const endereco = await Endereco.create(
+            const adress = await Endereco.create(
                 {
-                    cep, cidade, bairro, logradouro, numero, idpessoa, latitude, longitude
+                    endereco, complemento, idpessoa, latitude, longitude
                 }
             );
-            return res.status(200).send(endereco);
+            return res.status(200).send(adress);
         } return res.status(404).send("Pessoa não encontrada");
 
     } catch (err) {

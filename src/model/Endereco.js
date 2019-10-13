@@ -5,22 +5,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        cep: {
-            type: Sequelize.STRING,
-        },
-        uf: {
-            type: Sequelize.STRING,
-        },
-        cidade: {
-            type: Sequelize.STRING,
-        },
-        bairro: {
-            type: Sequelize.STRING,
-        },
-        numero: {
-            type: Sequelize.INTEGER,
-        },
-        logradouro: {
+        endereco: {
             type: Sequelize.STRING,
         },
         complemento: {
