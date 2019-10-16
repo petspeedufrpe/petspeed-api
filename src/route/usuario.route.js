@@ -15,4 +15,6 @@ router.post("/login", usuario.login);
 
 router.post("/cadastrarCliente", usuario.cadastrarCliente);
 
+router.post("/cadastrarVeterinario", usuario.cadastrarVeterinario);
+
 module.exports = router;

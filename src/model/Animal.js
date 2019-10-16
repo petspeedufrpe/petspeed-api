@@ -17,6 +17,9 @@ module.exports = (sequelize, Sequelize) => {
         nascimento: {
             type: Sequelize.INTEGER,
         },
+        foto: {
+            type: Sequelize.BLOB('long'),
+        },
         idPessoa: {
             type: Sequelize.INTEGER,
             foreignKey: true,

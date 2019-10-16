@@ -10,7 +10,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         senha: {
             type: Sequelize.STRING,
-        }
+        },
+        foto: {
+            type: Sequelize.BLOB('long'),
+        },
     },{
         freezeTableName: true,
         tablename: "usuario",

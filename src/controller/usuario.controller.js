@@ -4,6 +4,7 @@ const Usuario = db.usuario;
 const Cliente = db.cliente;
 const Pessoa = db.pessoa;
 const Medico = db.medico;
+const Endereco = db.endereco;
 var jwt = require('jsonwebtoken');
 
 exports.cadastrarCliente = async function (req, res) {
@@ -40,6 +41,60 @@ exports.cadastrarCliente = async function (req, res) {
         }, { transaction });
         await transaction.commit();
         return res.status(200).send({ "data": { usuario, pessoa, cliente } });
+    } catch (err) {
+        console.log(err);
+        await transaction.rollback();
+        return res.status(500).send("Não foi possível realizar o cadastro do cliente.");
+    }
+}
+
+exports.cadastrarVeterinario = async function (req, res) {
+    let transaction;
+    try {
+        transaction = await db.sequelize.transaction();
+        // Usuario
+        console.log(req.body);
+        let { senha, email } = req.body.usuario;
+        senha = await bcrypt.hash(senha, 10);
+        let usuario = await Usuario.findOne({ where: { email } });
+        if (!usuario) {
+            usuario = await Usuario.create({ email: email, senha: senha }, { transaction });
+        } else {
+            await transaction.rollback();
+            return res.status(403).send("E-mail já está em uso.");
+        }
+        // Pessoa
+        const { nome, cpf } = req.body.usuario;
+        let pessoa = await Pessoa.findOne({ where: { cpf } });
+        if (!pessoa) {
+            pessoa = await Pessoa.create({
+                nome: nome,
+                cpf: cpf,
+                idusuario: usuario.id
+            }, { transaction });
+        } else {
+            await transaction.rollback();
+            return res.status(403).send("CPF já cadastrado.");
+        }
+        // Medico
+        const { crmv, localcrmv, telefone } = req.body.usuario;
+        const medico = await Medico.create({
+            crmv: crmv,
+            telefone: telefone,
+            uf: localcrmv,
+            idpessoa: pessoa.id
+        }, { transaction });
+        // Endereço
+        const { endereco, complemento, latitude, longitude } = req.body.endereco;
+        const end = await Endereco.create({
+            endereco: endereco,
+            complemento: complemento,
+            latitude: latitude,
+            longitude: longitude,
+            idpessoa : pessoa.id
+        }, { transaction });
+        await transaction.commit();
+        return res.status(200).send({ "data": { usuario, pessoa, medico, end } });
     } catch (err) {
         console.log(err);
         await transaction.rollback();
