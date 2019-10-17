@@ -7,12 +7,8 @@ const pessoa = require("../controller/pessoa.controller.js");
 
 router.post("/cadastrarPessoa", pessoa.criarPessoa);
 
-router.put("/editarPessoa/:idpessoa", pessoa.editarPessoa);
+router.put("/editarPessoa/:idpessoa", multer(multerConfig).single("file"), pessoa.editarPessoa);
 
-router.post("/upload",multer(multerConfig).single("file"), (req,res)=> {
-    console.log(req.file)
-    return res.json({hello:'Teste'});
-});
 router.post("/cadastrarEndereco", pessoa.dbInsert);
 
 router.get("/:id", pessoa.findByPk);

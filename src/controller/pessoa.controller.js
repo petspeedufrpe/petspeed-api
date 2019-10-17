@@ -28,7 +28,8 @@ exports.criarPessoa = async function(req, res) {
 exports.editarPessoa = async function(req, res) {
   const { idpessoa } = req.params;
   const profileData = req.body;
-  
+  const image = req.file;
+  console.log(image);
   try {
     const pessoaEncontrada = await Pessoa.findOne({ where: { id: idpessoa } });
     if (pessoaEncontrada) {
