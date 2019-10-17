@@ -26,6 +26,7 @@ exports.criarPessoa = async function(req, res) {
   }
 };
 exports.editarPessoa = async function(req, res) {
+  console.log('EU ENTREI AQUI ?????')
   const { idpessoa } = req.params;
   const profileData = req.body;
   const image = req.file;

@@ -38,7 +38,9 @@ const storageTypes = {
 }
 module.exports = {
     dest: path.resolve(__dirname, '..','..','tmp','uploads'),
+    
     storage: storageTypes["s3"],
+
     fileFilter: (req,file,cb) => {
         const allowedMimes = [
             'images/jpeg',
