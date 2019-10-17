@@ -27,7 +27,7 @@ module.exports = {
             'image/png'
         ];
 
-        if(allowedMimes.includes(file.mimeType)){ 
+        if(allowedMimes.includes(file.mimetype)){ 
             cb(null, true);
         } else {
             cb(new Error('Invalid File Type'));
