@@ -94,7 +94,7 @@ exports.findByPk = async function(req, res) {
 exports.findByIdUsuario = async function(req, res) {
   idusuario = req.params.idusuario;
   try {
-    const pessoa = await Pessoa.findOne({where: {idusuario: idusuario}})
+    const pessoa = await Pessoa.findOne({where: {idusuario: idusuario}, include:[Usuario]})
     if (pessoa) {
       return res.status(200).send(pessoa)
     }

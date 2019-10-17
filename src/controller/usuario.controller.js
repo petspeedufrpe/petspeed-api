@@ -206,9 +206,9 @@ exports.login = async function (req, res) {
                 auth: true,
                 token: token,
                 user: {
+                    nome: pessoa.nome,
                     id: pessoa.id,
                     email: usuario.email,
-                    nome: pessoa.nome,
                     account
                 }
             });
@@ -241,5 +241,21 @@ exports.alterarSenha = async function (req, res) {
     } catch (err) {
         console.log(err);
         return res.status(500).send("Error");
+    }
+}
+exports.isClienteOrMedico = async function(req, res) {
+    const idusuario = req.params.idusuario;
+    try {
+        const cliente = await Cliente.findOne({where: {idUsuario: idusuario}});
+        if (cliente) {
+            return res.status(200).send(cliente)
+        } else {
+           const medico = await Medico.findOne({where:{idUsuario: idusuario}});
+           if (medico) {
+               return res.status(200).send(medico)
+           }
+        }
+    } catch (err) {
+        return res.status(500).send("Usuário não encontrado")
     }
 }
