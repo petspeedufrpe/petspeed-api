@@ -12,4 +12,6 @@ router.post("/cadastrarEndereco", pessoa.dbInsert);
 
 router.get("/:id", pessoa.findByPk);
 
+router.get("/encontrarPorIdUsuario/:idusuario", pessoa.findByIdUsuario);
+
 module.exports = router;
