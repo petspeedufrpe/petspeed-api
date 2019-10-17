@@ -18,7 +18,7 @@ router.post("/login", usuario.login);
 
 router.post("/posts",multer(multerConfig).single("file"), async (req,res)=>{
     console.log(req.file);
-    const {emailUsuario:email} = req.body;
+    const {emailUsuario:email} = req.params.idUsuario;
     try{
         const usuario = Usuario.findOne({
             where:{
