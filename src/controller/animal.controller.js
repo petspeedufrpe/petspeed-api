@@ -58,7 +58,7 @@ exports.getAnimalByIdCliente = async (req, res) => {
     try {
         const animais = await Animal.findAll(
             {
-                where : { idcliente : idCliente },
+                where : { idPessoa : idCliente },
                 attributes: { exclude: ['idcliente'] }
             }
         )
