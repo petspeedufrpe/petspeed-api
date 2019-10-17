@@ -238,3 +238,19 @@ exports.alterarSenha = async function (req, res) {
         return res.status(500).send("Error");
     }
 }
+exports.isClienteOrUsuario = async function(req, res) {
+    const idusuario = req.params.idusuario;
+    try {
+        const cliente = await Cliente.findOne({where: {idUsuario: idusuario}});
+        if (cliente) {
+            return res.status(200).send(cliente)
+        } else {
+           const medico = await Medico.findOne({where:{idUsuario: idusuario}});
+           if (medico) {
+               return res.status(200).send(medico)
+           }
+        }
+    } catch (err) {
+        return res.status(500).send("Usuário não encontrado")
+    }
+}
