@@ -246,7 +246,7 @@ exports.isClienteOrMedico = async function(req, res) {
         if (cliente) {
             return res.status(200).send(cliente)
         } else {
-           const medico = await Medico.findOne({where:{idPessoa: idpessoa}});
+           const medico = await Medico.findOne({where:{idPessoa: pessoa.id}});
            if (medico) {
                return res.status(200).send(medico)
            }
