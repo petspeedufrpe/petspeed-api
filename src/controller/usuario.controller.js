@@ -238,7 +238,7 @@ exports.alterarSenha = async function (req, res) {
         return res.status(500).send("Error");
     }
 }
-exports.isClienteOrUsuario = async function(req, res) {
+exports.isClienteOrMedico = async function(req, res) {
     const idusuario = req.params.idusuario;
     try {
         const cliente = await Cliente.findOne({where: {idUsuario: idusuario}});
