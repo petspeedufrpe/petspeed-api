@@ -71,3 +71,17 @@ exports.findByPk = async function(req, res) {
     res.status(500).send("Erro");
   }
 };
+exports.findByIdUsuario = async function(req, res) {
+  idusuario = req.params.idusuario;
+  try {
+    const pessoa = await Pessoa.findOne({where: {idusuario: idusuario}})
+    if (pessoa) {
+      return res.status(200).send(pessoa)
+    }
+    else {
+      return res.status(404).send("Não foi encontrada nenhuma pessoa")
+    }
+  } catch (err) {
+    res.status(500).send(err)
+  }
+}
