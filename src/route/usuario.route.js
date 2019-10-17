@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
+const multer = require('multer');
+const multerConfig = require("../config/multer");
 const usuario = require("../controller/usuario.controller.js");
 
 const Usuario = require("../model/Usuario");
