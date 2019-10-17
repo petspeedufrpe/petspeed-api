@@ -168,13 +168,11 @@ exports.login = async function (req, res) {
                 email: emailUsuario
             }
         });
-        console.log('ususario',usuario);
         const pessoa = await Pessoa.findOne({
             where: {
                 idUsuario: usuario.id
             }
         });
-        console.log('pessoa',pessoa)
         if (!usuario) {
             return res.status(400).send({ message: "Email não cadastrado no sistema" });
         }
@@ -183,7 +181,6 @@ exports.login = async function (req, res) {
                 idUsuario: usuario.id
             }
         });
-        console.log('cliente',cliente)
         if (!cliente) {
             const medico = await Medico.findOne({
                 where: {
@@ -199,6 +196,7 @@ exports.login = async function (req, res) {
             account = 'cliente'
         }
         const check = await bcrypt.compare(profileData.senha, usuario.senha);
+        console.log(check);
         if (check) {
             const { id } = usuario
             const token = jwt.sign({ id }, process.env.SECRET, {
