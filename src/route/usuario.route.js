@@ -16,7 +16,7 @@ router.delete('/deletarUsuarioPorId/:idUsuario', usuario.deletarUsuarioPorId);
 
 router.post("/login", usuario.login);
 
-router.post("/posts",multer(multerConfig).single("file"), async (req,res)=>{
+router.post("posts/:idUsuario",multer(multerConfig).single("file"), async (req,res)=>{
     console.log(req.file);
     const {emailUsuario:email} = req.params.idUsuario;
     try{
