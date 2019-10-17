@@ -205,12 +205,7 @@ exports.login = async function (req, res) {
             return res.status(200).send({
                 auth: true,
                 token: token,
-                user: {
-                    id: pessoa.id,
-                    email: usuario.email,
-                    nome: pessoa.nome,
-                    account
-                }
+                id: usuario.id
             });
         }
 
