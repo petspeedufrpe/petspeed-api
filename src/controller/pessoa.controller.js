@@ -4,6 +4,7 @@ const eventEmitter = new events.EventEmitter();
 const Pessoa = db.pessoa;
 const Usuario = db.usuario;
 const Endereco = db.endereco;
+const multer = require('multer');
 const googleMapsClient = require("@google/maps").createClient({
   key: process.env.API_KEY
 });
@@ -27,6 +28,25 @@ exports.criarPessoa = async function(req, res) {
 exports.editarPessoa = async function(req, res) {
   const { idpessoa } = req.params;
   const profileData = req.body;
+
+  const storage = multer.diskStorage({
+    destination: (req,file,cb) =>{
+      cb(null,'./public/images');
+    },
+    filename: (req,file,cb) =>{
+      console.log(file);
+      let filetype = '';
+      if(file.mimetype === 'image/png'){
+        filetype = 'png';
+      }
+      if(file.mimetype === 'image/jpeg'){
+        filetype = 'jpg'
+      }
+      cb(null,'image-' + Date.now() + '.' + filetype);
+    }
+  });
+
+exports.upload = multer({storage:storage}); 
 
   try {
     const pessoaEncontrada = await Pessoa.findOne({ where: { id: idpessoa } });
