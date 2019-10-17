@@ -17,4 +17,6 @@ router.post("/cadastrarCliente", usuario.cadastrarCliente);
 
 router.post("/cadastrarVeterinario", usuario.cadastrarVeterinario);
 
+router.get("/isClienteOrMedico/:idusuario", usuario.isClienteOrMedico);
+
 module.exports = router;
