@@ -208,6 +208,7 @@ exports.login = async function (req, res) {
                 user: {
                     nome: pessoa.nome,
                     id: pessoa.id,
+                    idUsuario: usuario.id,
                     email: usuario.email,
                     account
                 }
