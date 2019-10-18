@@ -26,7 +26,7 @@ exports.editarAnimal = async function(req, res) {
     try {
         const animalEncontrado = await Animal.findOne({where: {id: idanimal}})
         if (animalEncontrado) {
-            animalEncontrado.update(profileData);
+            const response = await animalEncontrado.update(profileData);
             return res.status(200).send("Dados atualizados com sucesso.")
         } else {
             return res.status(500).send("Não foi possível atualizar os seus dados.")
