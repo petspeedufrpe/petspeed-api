@@ -7,7 +7,7 @@ const pessoa = require("../controller/pessoa.controller.js");
 
 router.post("/cadastrarPessoa", pessoa.criarPessoa);
 
-router.post("/editarPessoa/:idpessoa", multer(multerConfig).single("file"), pessoa.editarPessoa);
+router.put("/editarPessoa/:idpessoa", multer(multerConfig).single("file"), pessoa.editarPessoa);
 
 router.post("/cadastrarEndereco", pessoa.dbInsert);
 
