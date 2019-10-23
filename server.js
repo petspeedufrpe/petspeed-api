@@ -14,6 +14,7 @@ const animal = require("./src/route/animal.route.js");
 const pessoa = require("./src/route/pessoa.route.js");
 const cliente = require("./src/route/cliente.route.js");
 const medico = require("./src/route/medico.route.js");
+const ordemServico = require("./src/route/ordemServico.route.js");
 //
 
 var app = express();
@@ -34,5 +35,6 @@ app.use("/pessoa", pessoa);
 app.use("/animal", animal);
 app.use("/cliente", cliente);
 app.use("/medico", medico);
+app.use("/ordemServico", ordemServico);
 app.listen(PORT);
 module.exports = app;
