@@ -39,3 +39,15 @@ exports.encontrarOrdemServico = async function(req, res) {
         return res.status(500).send(err);
     }
 }
+exports.findAllOS = async function(req, res) {
+    try {
+        const os = await OrdemServico.findAll();
+        if (os) {
+            return res.status(200).send(os)
+        } else {
+            return res.status(404).send("Não foi encontrada nenhuma OS.")
+        }
+    } catch (err) {
+        return res.status(500).send(err)
+    }
+}

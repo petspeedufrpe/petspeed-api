@@ -7,4 +7,6 @@ router.post("/criarOrdemServico", ordemServico.criarOrdemServico);
 
 router.get("/listarOrdemServico", ordemServico.encontrarOrdemServico);
 
+router.get("/findAllOrdemServico", ordemServico.findAllOS);
+
 module.exports = router;

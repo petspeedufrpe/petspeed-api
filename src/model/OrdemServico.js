@@ -19,6 +19,10 @@ module.exports = (sequelize, Sequelize) => {
         idanimal: {
             type: Sequelize.INTEGER,
             foreignKey: true,
+        },
+        idtriagem: {
+            type: Sequelize.INTEGER,
+            foreignKey: true,
         }
     }, {
         freezeTableName: true,
