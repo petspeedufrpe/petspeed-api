@@ -16,7 +16,7 @@ exports.criarOrdemServico = async function(req, res) {
         const cliente = await Cliente.findOne(idCliente);
         const medico = await Medico.findOne(idMedico);
 
-        if (animal && cliente && medico && triagem) {
+        if (animal && cliente && medico) {
             const ordemServico = await OrdemServico.create(profileData);
             return res.status(200).send(ordemServico);
         } else {
