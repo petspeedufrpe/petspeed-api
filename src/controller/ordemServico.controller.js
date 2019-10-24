@@ -9,14 +9,14 @@ exports.criarOrdemServico = async function(req, res) {
     const idMedico = req.body.idMedico;
     const idCliente = req.body.idCliente;
     const idAnimal = req.body.idAnimal;
-    const idTriagem = req.body.idTriagem;
+    const idtriagem = req.body.idtriagem;
     const profileData = req.body;
 
     try {
         const animal = await Animal.findOne({where: {id: idAnimal}});
         const cliente = await Cliente.findOne({where: {id:idCliente}});
         const medico = await Medico.findOne({where: {id: idMedico}});
-        const triagem = await Triagem.findOne({where: {id: idTriagem}});
+        const triagem = await Triagem.findOne({where: {id: idtriagem}});
 
         if (animal && cliente && medico && triagem) {
             const ordemServico = await OrdemServico.create(profileData);
