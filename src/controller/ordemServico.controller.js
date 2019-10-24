@@ -32,7 +32,7 @@ exports.encontrarOrdemServico = async function(req, res) {
     const idOrdemServico = req.params.idOrdemServico;
 
     try {
-        const ordemServico = await OrdemServico.findOne(idOrdemServico);
+        const ordemServico = await OrdemServico.findOne({where: {id: idOrdemServico}});
         if (ordemServico) {
             return res.status(201).send(ordemServico);
         } else {
@@ -55,13 +55,40 @@ exports.findAllOS = async function(req, res) {
     }
 }
 exports.getOsByMedico = async function(req, res) {
-    const idmedico = req.params.idmedico;
+    const id = req.params.idMedico;
     try {
-        const os = await ordemServico.findAll({where: {idmedico: idmedico}, include:[Cliente, Animal]});
+        const os = await OrdemServico.findAll({where: {idMedico: id}});
         if (os) {
             return res.status(200).send(os);
         } else {
             return res.status(404).send("Não foi encontrada nenhuma OS para este médico.")
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
+}
+exports.getOsByCliente = async function(req, res) {
+    const id = req.params.idCliente;
+    try {
+        const os = await OrdemServico.findAll({where: {idCliente: id}});
+        if (os) {
+            return res.status(200).send(os);
+        } else {
+            return res.status(404).send("Não foi encontrada nenhuma OS para este cliente")
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}
+exports.getOsByAnimal = async function(req, res) {
+    const id = req.params.idAnimal;
+    try {
+        const os = await OrdemServico.findAll({where: {idAnimal: id}});
+        if (os) {
+            return res.status(200).send(os);
+        } else {
+            return res.status(404).send("Não foi encontrada nenhuma OS para este animal")
         }
     } catch (err) {
         res.status(500).send(err);

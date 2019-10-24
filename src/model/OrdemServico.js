@@ -23,6 +23,12 @@ module.exports = (sequelize, Sequelize) => {
         idtriagem: {
             type: Sequelize.INTEGER,
             foreignKey: true,
+        },
+        status: {
+            type: Sequelize.STRING,
+        },
+        prioridade: {
+            type: Sequelize.INTEGER,
         }
     }, {
         freezeTableName: true,
