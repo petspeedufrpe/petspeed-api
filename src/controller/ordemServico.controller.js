@@ -4,7 +4,7 @@ const Medico = db.medico;
 const Cliente = db.cliente;
 const Animal = db.animal;
 const Triagem = db.triagem;
-
+const Pessoa = db.pessoa;
 exports.criarOrdemServico = async function(req, res) {
     const idMedico = req.body.idMedico;
     const idCliente = req.body.idCliente;
@@ -18,7 +18,7 @@ exports.criarOrdemServico = async function(req, res) {
         const medico = await Medico.findOne(idMedico);
         const triagem = await Triagem.findOne(idTriagem);
 
-        if (animal && cliente && medico) {
+        if (animal && cliente && medico && triagem) {
             const ordemServico = await OrdemServico.create(profileData);
             return res.status(200).send(ordemServico);
         } else {
@@ -57,7 +57,7 @@ exports.findAllOS = async function(req, res) {
 exports.getOsByMedico = async function(req, res) {
     const id = req.params.idMedico;
     try {
-        const os = await OrdemServico.findAll({where: {idMedico: id}});
+        const os = await OrdemServico.findAll({where: {idMedico: id},include:[{model:Cliente}, {model: Animal}, {model: Triagem}]});
         if (os) {
             return res.status(200).send(os);
         } else {
@@ -70,21 +70,21 @@ exports.getOsByMedico = async function(req, res) {
 exports.getOsByCliente = async function(req, res) {
     const id = req.params.idCliente;
     try {
-        const os = await OrdemServico.findAll({where: {idCliente: id}});
+        const os = await OrdemServico.findAll({where: {idCliente: id}, include:[{model: Medico}, {model: Animal}]});
         if (os) {
             return res.status(200).send(os);
         } else {
             return res.status(404).send("Não foi encontrada nenhuma OS para este cliente")
         }
     } catch (err) {
-        console.log(err);
+        console.log(err)
         res.status(500).send(err);
     }
 }
 exports.getOsByAnimal = async function(req, res) {
     const id = req.params.idAnimal;
     try {
-        const os = await OrdemServico.findAll({where: {idAnimal: id}});
+        const os = await OrdemServico.findAll({where: {idAnimal: id}, include:[{model: Cliente}, {model: Medico}]});
         if (os) {
             return res.status(200).send(os);
         } else {

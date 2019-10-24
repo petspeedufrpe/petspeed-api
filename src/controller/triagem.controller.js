@@ -8,7 +8,7 @@ exports.criarTriagem = async function(req, res) {
         if (triagem) {
             return res.status(200).send(triagem);
         } else {
-            return res.status(500).send("Não foi possível cadastrar a sua triagem";)
+            return res.status(500).send("Não foi possível cadastrar a sua triagem");
         }
     } catch (err) {
         return res.status(500).send(err)

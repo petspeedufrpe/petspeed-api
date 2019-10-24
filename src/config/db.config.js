@@ -38,6 +38,11 @@ db.cliente.belongsTo(db.pessoa, { foreignKey: "idpessoa" });
 db.medico.belongsTo(db.pessoa, { foreignKey: "idpessoa" });
 
 db.pessoa.hasOne(db.endereco, { foreignKey: "idpessoa" });
+
+db.ordemServico.belongsTo(db.cliente, {foreignKey: "idcliente"});
+db.ordemServico.belongsTo(db.animal, {foreignKey: "idanimal"});
+db.ordemServico.belongsTo(db.medico, {foreignKey: "idmedico"});
+db.ordemServico.belongsTo(db.triagem, {foreignKey: "idtriagem"});
 //
 
 module.exports = db;
