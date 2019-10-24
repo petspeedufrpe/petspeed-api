@@ -9,4 +9,6 @@ router.get("/listarOrdemServico", ordemServico.encontrarOrdemServico);
 
 router.get("/findAllOrdemServico", ordemServico.findAllOS);
 
+router.get("/getOsByMedico", ordemServico.getOsByMedico);
+
 module.exports = router;
