@@ -1,24 +1,24 @@
 const db = require("../config/db.config.js");
 const OrdemServico = db.ordemServico;
 const Medico = db.medico;
-const Cliente = db.cliente;
+const Pessoa = db.pessoa;
 const Animal = db.animal;
 const Triagem = db.triagem;
 const Pessoa = db.pessoa;
 exports.criarOrdemServico = async function(req, res) {
     const idMedico = req.body.idMedico;
-    const idCliente = req.body.idCliente;
+    const idPessoa = req.body.idPessoa;
     const idAnimal = req.body.idAnimal;
     const idtriagem = req.body.idtriagem;
     const profileData = req.body;
 
     try {
         const animal = await Animal.findOne({where: {id: idAnimal}});
-        const cliente = await Cliente.findOne({where: {id:idCliente}});
+        const pessoa = await Pessoa.findOne({where: {id: idPessoa}});
         const medico = await Medico.findOne({where: {id: idMedico}});
         const triagem = await Triagem.findOne({where: {id: idtriagem}});
 
-        if (animal && cliente && medico && triagem) {
+        if (animal && pessoa && medico && triagem) {
             const ordemServico = await OrdemServico.create(profileData);
             return res.status(200).send(ordemServico);
         } else {
@@ -58,7 +58,7 @@ exports.findAllOS = async function(req, res) {
 exports.getOsByMedico = async function(req, res) {
     const id = req.params.idMedico;
     try {
-        const os = await OrdemServico.findAll({where: {idMedico: id},include:[{model:Cliente}, {model: Animal}, {model: Triagem}]});
+        const os = await OrdemServico.findAll({where: {idMedico: id},include:[{model:Pessoa}, {model: Animal}, {model: Triagem}]});
         if (os) {
             return res.status(200).send(os);
         } else {
@@ -68,10 +68,10 @@ exports.getOsByMedico = async function(req, res) {
         res.status(500).send(err);
     }
 }
-exports.getOsByCliente = async function(req, res) {
-    const id = req.params.idCliente;
+exports.getOsByPessoa = async function(req, res) {
+    const id = req.params.idPessoa;
     try {
-        const os = await OrdemServico.findAll({where: {idCliente: id}, include:[{model: Medico}, {model: Animal}]});
+        const os = await OrdemServico.findAll({where: {idPessoa: id}, include:[{model: Medico}, {model: Animal}]});
         if (os) {
             return res.status(200).send(os);
         } else {
@@ -85,7 +85,7 @@ exports.getOsByCliente = async function(req, res) {
 exports.getOsByAnimal = async function(req, res) {
     const id = req.params.idAnimal;
     try {
-        const os = await OrdemServico.findAll({where: {idAnimal: id}, include:[{model: Cliente}, {model: Medico}]});
+        const os = await OrdemServico.findAll({where: {idAnimal: id}, include:[{model: Pessoa}, {model: Medico}]});
         if (os) {
             return res.status(200).send(os);
         } else {
