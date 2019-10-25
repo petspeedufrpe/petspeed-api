@@ -16,6 +16,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
+        idCliente: {
+            type: Sequelize.INTEGER,
+            foreignKey: true,
+        },
         idAnimal: {
             type: Sequelize.INTEGER,
             foreignKey: true,
