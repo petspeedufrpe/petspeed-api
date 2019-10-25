@@ -12,10 +12,6 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
-        idPessoa: {
-            type: Sequelize.INTEGER,
-            foreignKey: true,
-        },
         idCliente: {
             type: Sequelize.INTEGER,
             foreignKey: true,
