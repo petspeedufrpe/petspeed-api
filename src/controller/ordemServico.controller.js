@@ -72,9 +72,9 @@ exports.getOsByMedico = async function(req, res) {
     }
 }
 exports.getOsByCliente = async function(req, res) {
-    const { idCliente } = req.params;
+    const { id } = req.params.id;
     try {
-        const os = await OrdemServico.findAll({where: {idPessoa: idCliente}, {excluide: ['idcliente'], include:[{model: Medico}, {model: Animal}]});
+        const os = await OrdemServico.findAll({where: {idCliente: id}, {excluide: ['idcliente'], include:[{model: Medico}, {model: Animal}]});
         if (os) {
             return res.status(200).send(os);
         } else {
