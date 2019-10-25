@@ -12,7 +12,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
-        idCliente: {
+        idPessoa: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
