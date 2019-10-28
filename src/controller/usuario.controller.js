@@ -160,7 +160,8 @@ exports.deletarUsuarioPorId = async (req, res) => {
 
 exports.login = async function (req, res) {
     const profileData = req.body;
-    let account = null;
+    let idCliente = null;
+    let idMedico = null;
     const { email: emailUsuario } = profileData;
     try {
         const usuario = await Usuario.findOne({
@@ -188,12 +189,12 @@ exports.login = async function (req, res) {
                 }
             });
             if (!medico) {
-                return res.status(400).send({ message: "dados inváldios" });
+                return res.status(400).send({ message: "dados inválidos." });
             } else {
-                account = 'medico'
+                idMedico = medico.id;
             }
         } else {
-            account = 'cliente'
+            idCliente = cliente.id;
         }
         const check = await bcrypt.compare(profileData.senha, usuario.senha);
         console.log(check);
@@ -210,7 +211,8 @@ exports.login = async function (req, res) {
                     id: pessoa.id,
                     idUsuario: usuario.id,
                     email: usuario.email,
-                    account
+                    idCliente,
+                    idMedico
                 }
             });
         }
