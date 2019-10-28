@@ -58,7 +58,15 @@ exports.findAllOS = async function(req, res) {
 exports.getOsByMedico = async function(req, res) {
     const id = req.params.idMedico;
     try {
-        const os = await OrdemServico.findAll({where: {idMedico: id},include:[{model:Cliente}, {model: Animal}, {model: Triagem}]});
+        const os = await OrdemServico.findAll({
+            where: {idMedico: id},
+            include:[
+                {model:Cliente,
+                    include: [Pessoa]
+                },
+                {model: Animal},
+                {model: Triagem}
+            ]});
         if (os) {
             return res.status(200).send(os);
         } else {
