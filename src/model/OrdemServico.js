@@ -20,7 +20,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },
-        idtriagem: {
+        idTriagem: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },

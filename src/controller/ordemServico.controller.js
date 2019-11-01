@@ -7,7 +7,7 @@ const Triagem = db.triagem;
 const Pessoa = db.pessoa;
 
 exports.criarOrdemServico = async function (req, res) {
-    const { ordemServico, triagem } = req.body;
+    let { ordemServico, triagem } = req.body;
     const { idAnimal, idCliente, idMedico } = ordemServico;
     try {
         let transaction;
@@ -18,12 +18,14 @@ exports.criarOrdemServico = async function (req, res) {
             const cliente = await Cliente.findOne({ where: { id: idCliente } });
             const medico = await Medico.findOne({ where: { id: idMedico } });
             if (animal && cliente && medico) {
-                const _ordemServico = await OrdemServico.create({
-                    ordemServico,
-                    idTriagem: _triagem.id
-                }, { transaction });
+                ordemServico.idTriagem = _triagem.id;
+                const _ordemServico = await OrdemServico.create(ordemServico,
+                     { transaction });
                 await transaction.commit();
                 return res.status(200).send({ _ordemServico, _triagem });
+            } else {
+                return res.status(404)
+                .send(`${!animal ? "Animal" : !cliente ? "Cliente" : "Médico" } não encontrado.`);
             }
         }
         else {
