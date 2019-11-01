@@ -17,12 +17,12 @@ exports.criarMedico = async function(req, res) {
         const existeCRMV = await Medico.findOne({where: {crmv: crmv, uf: uf}});
         if(pessoa && !existeCRMV) {
             const medico = await Medico.create(profileData);
-            return res.status(200).send(medico);
+            return res.send(medico);
         } else {
-            return res.status(500).send("Erro ao cadastrar médico");
+            return res.send("Erro ao cadastrar médico");
         }
     } catch(err) {
-        return res.status(500).send(err);
+        return res.send(err);
     }
 }
 exports.editarMedico = async function(req, res) {
@@ -33,12 +33,12 @@ exports.editarMedico = async function(req, res) {
         const medicoEncontrado = await Medico.findOne({where:{id: idmedico}});
         if (medicoEncontrado) {
             medicoEncontrado.update(profileData);
-            return res.status(200).send("Dados atualizados com sucesso");
+            return res.send("Dados atualizados com sucesso");
         } else {
-            return res.status(500).send("Erro ao atualizar");
+            return res.send("Erro ao atualizar");
         }
     } catch (err) {
-        return res.status(500).send(err);
+        return res.send(err);
     }
 }
 
@@ -49,10 +49,10 @@ exports.findAllMedicos = async function(req, res) {
                 {model: Pessoa, include: [Endereco, Usuario]},
             ]
         });
-        return res.status(200).send(medicos);
+        return res.send(medicos);
     } catch (err) {
         console.log(err);
-        return res.status(500)
+        return res
         .send("Não foi possível retornar a lista de médicos veterinários");
     }
 }
@@ -65,11 +65,11 @@ exports.findMedicoByNome = async function(req, res){
             ]
         });
         if (medicos.length) {
-            return res.status(200).send(medicos);
-        } return res.status(404).send("A busca não encontrou nenhum médico veterinário.");
+            return res.send(medicos);
+        } return res.send("A busca não encontrou nenhum médico veterinário.");
     } catch (err) {
         console.log(err);
-        return res.status(500).send("Errou ao buscar médicos veterinários");
+        return res.send("Errou ao buscar médicos veterinários");
         
     }
 }

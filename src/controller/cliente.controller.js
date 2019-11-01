@@ -10,12 +10,12 @@ exports.criarCliente = async function (req, res) {
         const pessoa = await Pessoa.findOne({ where: { id: idpessoa } });
         if (pessoa) {
             const cliente = await Cliente.create(profileData);
-            return res.status(200).send(cliente);
+            return res.send(cliente);
         } else {
-            return res.status(404).send("Não foi possível realizar o seu cadastro");
+            return res.send("Não foi possível realizar o seu cadastro");
         }
     } catch (err) {
-        res.status(500).send("entrou aqui");
+        res.send("entrou aqui");
     }
 }
 exports.editarCliente = async function (req, res) {
@@ -23,21 +23,21 @@ exports.editarCliente = async function (req, res) {
     const profileData = req.body;
     try {
         const cliente = await Cliente.update(profileData, { where: { id: idcliente } });
-        return res.status(200).send("Atualizado com sucesso");
+        return res.send("Atualizado com sucesso");
     } catch (err) {
-        res.status(500).send("entrou no catch");
+        res.send("entrou no catch");
     }
 }
 exports.encontrarAnimalPorCliente = async function (req, res) {
     try {
         const animais = await Animal.findAll({ where: { idpessoa: req.params.idpessoa }, attributes: ['id', 'nome', 'raca', 'peso', 'nascimento'] });
         if (animais) {
-            return res.status(200).send(animais);
+            return res.send(animais);
         } else {
-            res.status(404).send("Cliente não possui nenhum animal cadastrado")
+            res.send("Cliente não possui nenhum animal cadastrado")
         }
     } catch (err) {
-        res.status(500).send(req.params);
+        res.send(req.params);
     }
 }
 

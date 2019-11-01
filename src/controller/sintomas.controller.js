@@ -11,11 +11,11 @@ exports.criarSintomas = async function(req, res) {
         const triagem = await Triagem.findOne(idTriagem);
         if (triagem) {
             const sintomas = await Sintomas.create(profileData);
-            return res.status(200).send(sintomas);
+            return res.send(sintomas);
         } else {
-            return res.status(404).send("Não foi encontrada nenhuma triagem")
+            return res.send("Não foi encontrada nenhuma triagem")
         }
     } catch(err) {
-        res.status(500).send(err);
+        res.send(err);
     }
 }

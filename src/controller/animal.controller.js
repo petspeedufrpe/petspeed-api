@@ -11,12 +11,12 @@ exports.criarAnimal = async function(req, res) {
         const pessoa = await Pessoa.findOne({where: {id: idPessoa}});
         if (pessoa) {
             const animal = await Animal.create(profileData);
-            res.status(200).send("Animal cadastrado com sucesso");
+            res.send("Animal cadastrado com sucesso");
         } else {
-            res.status(404).send("Não foi possível cadastrar");
+            res.send("Não foi possível cadastrar");
         }
     } catch (err) {
-        res.status(500).send(err.message);
+        res.send(err.message);
     }
 }
 exports.editarAnimal = async function(req, res) {
@@ -27,12 +27,12 @@ exports.editarAnimal = async function(req, res) {
         const animalEncontrado = await Animal.findOne({where: {id: idanimal}})
         if (animalEncontrado) {
             const response = await animalEncontrado.update(profileData);
-            return res.status(200).send("Dados atualizados com sucesso.")
+            return res.send("Dados atualizados com sucesso.")
         } else {
-            return res.status(500).send("Não foi possível atualizar os seus dados.")
+            return res.send("Não foi possível atualizar os seus dados.")
         }
     } catch (err) {
-        return res.status(500).send(err);
+        return res.send(err);
     }
 }
 exports.getAnimalById = async function(req, res) {
@@ -46,11 +46,11 @@ exports.getAnimalById = async function(req, res) {
                 include: [Pessoa] }
             ]
         });
-        return animal ? res.status(200).send(animal) :
-        res.status(404).send("Animal não encontrado");      
+        return animal ? res.send(animal) :
+        res.send("Animal não encontrado");      
     } catch (error) {
         console.log(error);
-        return res.status(500).send("Não foi possível recuperar o animal.");
+        return res.send("Não foi possível recuperar o animal.");
     }
 }
 exports.getAnimalByIdCliente = async (req, res) => {
@@ -62,10 +62,10 @@ exports.getAnimalByIdCliente = async (req, res) => {
                 attributes: { exclude: ['idcliente'] }
             }
         )
-        return res.status(200).send(animais);
+        return res.send(animais);
     } catch (error) {
         console.log(error);
-        return res.status(500).send("Não foi possível listar os animais do cliente.");
+        return res.send("Não foi possível listar os animais do cliente.");
     }
 }
 exports.deleteAnimal = async (req, res) => {
@@ -74,8 +74,8 @@ exports.deleteAnimal = async (req, res) => {
         await Animal.destroy({
             where: { id : id }
         })
-        return res.status(200).send("O animal foi removido.");
+        return res.send("O animal foi removido.");
     } catch (error) {
-        return res.status(500).send("Não foi possível remover o animal.");
+        return res.send("Não foi possível remover o animal.");
     }
 }

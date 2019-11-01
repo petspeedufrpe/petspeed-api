@@ -17,12 +17,12 @@ exports.criarPessoa = async function(req, res) {
     const usuario = await Usuario.findOne({ where: { id: idusuario } });
     if (usuario) {
       const pessoa = await Pessoa.create(profileData);
-      return res.status(200).send(pessoa);
+      return res.send(pessoa);
     } else {
-      return res.status(404).send("Não foi possível encontrar o usuário.");
+      return res.send("Não foi possível encontrar o usuário.");
     }
   } catch (err) {
-    return res.status(500).send("entrou no catch");
+    return res.send("entrou no catch");
   }
 };
 exports.editarPessoa = async function(req, res) {
@@ -35,12 +35,12 @@ exports.editarPessoa = async function(req, res) {
     const pessoaEncontrada = await Pessoa.findOne({ where: { id: idpessoa } });
     if (pessoaEncontrada) {
       await pessoaEncontrada.update(profileData);
-      return res.status(200).send("Atualizado com sucesso");
+      return res.send("Atualizado com sucesso");
     } else {
-      return res.status(404).send("Pessoa não encontrada.");
+      return res.send("Pessoa não encontrada.");
     }
   } catch (err) {
-    res.status(500).send(err);
+    res.send(err);
   }
 };
 
@@ -56,22 +56,22 @@ exports.dbInsert = async function(req, res) {
         latitude,
         longitude
       });
-      return res.status(200).send(adress);
+      return res.send(adress);
     }
-    return res.status(404).send("Pessoa não encontrada");
+    return res.send("Pessoa não encontrada");
   } catch (err) {
     console.log(err);
-    return res.status(500).send("Não foi possível cadastrar o endereço");
+    return res.send("Não foi possível cadastrar o endereço");
   }
 };
 
 exports.findByPk = async function(req, res) {
   try {
     const pessoa = await Pessoa.findByPk(req.params.id);
-    res.status(200).send(pessoa);
+    res.send(pessoa);
   } catch (err) {
     console.log(err);
-    res.status(500).send("Erro");
+    res.send("Erro");
   }
 };
 exports.findByIdUsuario = async function(req, res) {
@@ -79,12 +79,12 @@ exports.findByIdUsuario = async function(req, res) {
   try {
     const pessoa = await Pessoa.findOne({where: {idusuario: idusuario}, include:[Usuario]})
     if (pessoa) {
-      return res.status(200).send(pessoa)
+      return res.send(pessoa)
     }
     else {
-      return res.status(404).send("Não foi encontrada nenhuma pessoa")
+      return res.send("Não foi encontrada nenhuma pessoa")
     }
   } catch (err) {
-    res.status(500).send(err)
+    res.send(err)
   }
 }

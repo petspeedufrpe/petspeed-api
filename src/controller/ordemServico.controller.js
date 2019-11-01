@@ -22,19 +22,18 @@ exports.criarOrdemServico = async function (req, res) {
                 const _ordemServico = await OrdemServico.create(ordemServico,
                      { transaction });
                 await transaction.commit();
-                return res.status(200).send({ _ordemServico, _triagem });
+                return res.send({ _ordemServico, _triagem });
             } else {
-                return res.status(404)
-                .send(`${!animal ? "Animal" : !cliente ? "Cliente" : "Médico" } não encontrado.`);
+                return res.send(`${!animal ? "Animal" : !cliente ? "Cliente" : "Médico" } não encontrado.`);
             }
         }
         else {
             await transaction.rollback();
-            return res.status(500).send("Não foi possível criar a ordem de Serviço");
+            return res.send("Não foi possível criar a ordem de Serviço");
         }
     } catch (err) {
         console.log(err);
-        return res.status(500).send(err)
+        return res.send(err)
     }
 }
 exports.encontrarOrdemServico = async function (req, res) {
@@ -43,24 +42,24 @@ exports.encontrarOrdemServico = async function (req, res) {
     try {
         const ordemServico = await OrdemServico.findOne({ where: { id: idOrdemServico } });
         if (ordemServico) {
-            return res.status(201).send(ordemServico);
+            return res.send(ordemServico);
         } else {
-            return res.status(404).send("Não existe nenhuma ordem de Serviço");
+            return res.send("Não existe nenhuma ordem de Serviço");
         }
     } catch (err) {
-        return res.status(500).send(err);
+        return res.send(err);
     }
 }
 exports.findAllOS = async function (req, res) {
     try {
         const os = await OrdemServico.findAll();
         if (os) {
-            return res.status(200).send(os)
+            return res.send(os)
         } else {
-            return res.status(404).send("Não foi encontrada nenhuma OS.")
+            return res.send("Não foi encontrada nenhuma OS.")
         }
     } catch (err) {
-        return res.status(500).send(err)
+        return res.send(err)
     }
 }
 exports.getOsByMedico = async function (req, res) {
@@ -78,12 +77,12 @@ exports.getOsByMedico = async function (req, res) {
             ]
         });
         if (os) {
-            return res.status(200).send(os);
+            return res.send(os);
         } else {
-            return res.status(404).send("Não foi encontrada nenhuma OS para este médico.")
+            return res.send("Não foi encontrada nenhuma OS para este médico.")
         }
     } catch (err) {
-        res.status(500).send(err);
+        res.send(err);
     }
 }
 exports.getOsByCliente = async function (req, res) {
@@ -91,13 +90,13 @@ exports.getOsByCliente = async function (req, res) {
     try {
         const os = await OrdemServico.findAll({ where: { idCliente: id }, include: [{ model: Medico }, { model: Animal }] });
         if (os) {
-            return res.status(200).send(os);
+            return res.send(os);
         } else {
-            return res.status(404).send("Não foi encontrada nenhuma OS para este cliente")
+            return res.send("Não foi encontrada nenhuma OS para este cliente")
         }
     } catch (err) {
         console.log(err)
-        res.status(500).send(err);
+        res.send(err);
     }
 }
 exports.getOsByAnimal = async function (req, res) {
@@ -105,11 +104,11 @@ exports.getOsByAnimal = async function (req, res) {
     try {
         const os = await OrdemServico.findAll({ where: { idAnimal: id }, include: [{ model: Cliente }, { model: Medico }] });
         if (os) {
-            return res.status(200).send(os);
+            return res.send(os);
         } else {
-            return res.status(404).send("Não foi encontrada nenhuma OS para este animal")
+            return res.send("Não foi encontrada nenhuma OS para este animal")
         }
     } catch (err) {
-        res.status(500).send(err);
+        res.send(err);
     }
 }

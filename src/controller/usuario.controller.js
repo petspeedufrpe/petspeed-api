@@ -19,7 +19,7 @@ exports.cadastrarCliente = async function (req, res) {
         if (!usuario) {
             usuario = await Usuario.create({ email: email, senha: senha }, { transaction });
         } else {
-            return res.status(403).send("E-mail já está em uso.");
+            return res.send("E-mail já está em uso.");
         }
         // Pessoa
         const { pessoaData } = req.body;
@@ -32,7 +32,7 @@ exports.cadastrarCliente = async function (req, res) {
                 idusuario: usuario.id
             }, { transaction });
         } else {
-            return res.status(403).send("CPF já cadastrado.");
+            return res.send("CPF já cadastrado.");
         }
         // Cliente
         const cliente = await Cliente.create({
@@ -40,11 +40,11 @@ exports.cadastrarCliente = async function (req, res) {
             idpessoa: pessoa.id
         }, { transaction });
         await transaction.commit();
-        return res.status(200).send({ "data": { usuario, pessoa, cliente } });
+        return res.send({ "data": { usuario, pessoa, cliente } });
     } catch (err) {
         console.log(err);
         await transaction.rollback();
-        return res.status(500).send("Não foi possível realizar o cadastro do cliente.");
+        return res.send("Não foi possível realizar o cadastro do cliente.");
     }
 }
 
@@ -61,7 +61,7 @@ exports.cadastrarVeterinario = async function (req, res) {
             usuario = await Usuario.create({ email: email, senha: senha }, { transaction });
         } else {
             await transaction.rollback();
-            return res.status(403).send("E-mail já está em uso.");
+            return res.send("E-mail já está em uso.");
         }
         // Pessoa
         const { nome, cpf } = req.body.usuario;
@@ -74,7 +74,7 @@ exports.cadastrarVeterinario = async function (req, res) {
             }, { transaction });
         } else {
             await transaction.rollback();
-            return res.status(403).send("CPF já cadastrado.");
+            return res.send("CPF já cadastrado.");
         }
         // Medico
         const { crmv, localcrmv, telefone } = req.body.usuario;
@@ -94,11 +94,11 @@ exports.cadastrarVeterinario = async function (req, res) {
             idpessoa : pessoa.id
         }, { transaction });
         await transaction.commit();
-        return res.status(200).send({ "data": { usuario, pessoa, medico, end } });
+        return res.send({ "data": { usuario, pessoa, medico, end } });
     } catch (err) {
         console.log(err);
         await transaction.rollback();
-        return res.status(500).send("Não foi possível realizar o cadastro do cliente.");
+        return res.send("Não foi possível realizar o cadastro do cliente.");
     }
 }
 
@@ -114,15 +114,15 @@ exports.criarUsuario = async function (req, res) {
             const usuario = await Usuario.create(profileData);
         }
         else {
-            return res.status(500).send("Já existe este e-mail cadastrado no sistema")
+            return res.send("Já existe este e-mail cadastrado no sistema")
         }
         if (usuario) {
-            return res.status(200).send(usuario);
+            return res.send(usuario);
         } else {
-            return res.status(500).send("Não foi possível realizar cadastro de usuário")
+            return res.send("Não foi possível realizar cadastro de usuário")
         }
     } catch (err) {
-        return res.status(500).send(err)
+        return res.send(err)
     }
 }
 exports.encontrarUsuarioPorId = async (req, res) => {
@@ -131,12 +131,12 @@ exports.encontrarUsuarioPorId = async (req, res) => {
     try {
         const usuario = await Usuario.findOne({ where: { id } });
         if (usuario) {
-            return res.status(200).send(usuario);
+            return res.send(usuario);
         } else {
-            return res.status(404).send("Não foi encontrado nenhum usuário");
+            return res.send("Não foi encontrado nenhum usuário");
         }
     } catch (err) {
-        res.status(500).send(err);
+        res.send(err);
     }
 }
 
@@ -148,12 +148,12 @@ exports.deletarUsuarioPorId = async (req, res) => {
 
         if (usuario) {
             usuario.destroy();
-            return res.status(200).send(usuario);
+            return res.send(usuario);
         }
-        return res.status(400).send({ message: "Usuario não existe" })
+        return res.send({ message: "Usuario não existe" })
     }
     catch (err) {
-        return res.status(500).send(err);
+        return res.send(err);
     }
 
 }
@@ -175,7 +175,7 @@ exports.login = async function (req, res) {
             }
         });
         if (!usuario) {
-            return res.status(400).send({ message: "Email não cadastrado no sistema" });
+            return res.send({ message: "Email não cadastrado no sistema" });
         }
         const cliente = await Cliente.findOne({
             where: {
@@ -189,7 +189,7 @@ exports.login = async function (req, res) {
                 }
             });
             if (!medico) {
-                return res.status(400).send({ message: "dados inválidos." });
+                return res.send({ message: "dados inválidos." });
             } else {
                 idMedico = medico.id;
             }
@@ -203,7 +203,7 @@ exports.login = async function (req, res) {
             const token = jwt.sign({ id }, process.env.SECRET, {
                 expiresIn: 86400 // tempo em segundos (1 dia)
             });
-            return res.status(200).send({
+            return res.send({
                 auth: true,
                 token: token,
                 user: {
@@ -217,10 +217,10 @@ exports.login = async function (req, res) {
             });
         }
 
-        return res.status(400).send({ message: "Dados inválidos" });
+        return res.send({ message: "Dados inválidos" });
     }
     catch (err) {
-        return res.status(500).send(err.message)
+        return res.send(err.message)
     }
 }
 
@@ -236,14 +236,14 @@ exports.alterarSenha = async function (req, res) {
                     { senha: senhaNova },
                     { where: { id: id } }
                 );
-                return res.status(200).send("Senha alterada com sucesso.");
+                return res.send("Senha alterada com sucesso.");
             }
-            return res.status(403).send("Senhas não correspondem");
+            return res.send("Senhas não correspondem");
         }
-        return res.status(404).send("Usuário não encontrado");
+        return res.send("Usuário não encontrado");
     } catch (err) {
         console.log(err);
-        return res.status(500).send("Error");
+        return res.send("Error");
     }
 }
 exports.isClienteOrMedico = async function(req, res) {
@@ -251,14 +251,14 @@ exports.isClienteOrMedico = async function(req, res) {
     try {
         const cliente = await Cliente.findOne({where: {idUsuario: idusuario}});
         if (cliente) {
-            return res.status(200).send(cliente)
+            return res.send(cliente)
         } else {
            const medico = await Medico.findOne({where:{idUsuario: idusuario}});
            if (medico) {
-               return res.status(200).send(medico)
+               return res.send(medico)
            }
         }
     } catch (err) {
-        return res.status(500).send("Usuário não encontrado")
+        return res.send("Usuário não encontrado")
     }
 }

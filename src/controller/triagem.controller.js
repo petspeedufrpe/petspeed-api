@@ -6,11 +6,11 @@ exports.criarTriagem = async function(req, res) {
     try {
         const triagem = await Triagem.create(profileData);
         if (triagem) {
-            return res.status(200).send(triagem);
+            return res.send(triagem);
         } else {
-            return res.status(500).send("Não foi possível cadastrar a sua triagem");
+            return res.send("Não foi possível cadastrar a sua triagem");
         }
     } catch (err) {
-        return res.status(500).send(err)
+        return res.send(err)
     }
 }
