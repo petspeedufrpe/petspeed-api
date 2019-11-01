@@ -3,7 +3,7 @@ var router = express.Router();
 
 const ordemServico = require("../controller/ordemServico.controller.js");
 
-router.post("/criarOrdemServico", ordemServico.criarOrdemServico);
+router.post("/criarOrdemServico", ordemServico.criarordemServico);
 
 router.get("/listarOrdemServico/:idOrdemServico", ordemServico.encontrarOrdemServico);
 
