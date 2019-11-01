@@ -41,4 +41,17 @@ exports.encontrarAnimalPorCliente = async function (req, res) {
     }
 }
 
+exports.getByIdUser = async function (req,res){
+    try {
+        const cliente = await Cliente.findOne({where:{idUsuario:req.params.idUser}});
+        if(cliente){
+            return res.send(cliente);
+        } 
+        return res.send({message:"Cliente não encontrado"});
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 
