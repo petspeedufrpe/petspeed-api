@@ -8,6 +8,7 @@ const Pessoa = db.pessoa;
 
 exports.criarordemServico = async function (req, res) {
     let { ordemServico, triagem } = req.body;
+    console.log(ordemServico);
     const { idAnimal, idCliente, idMedico } = ordemServico;
     try {
         let transaction;
