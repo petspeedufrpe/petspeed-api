@@ -5,6 +5,7 @@ const Cliente = db.cliente;
 const Animal = db.animal;
 const Triagem = db.triagem;
 const Pessoa = db.pessoa;
+const Solicitacao = db.solicitacao;
 
 exports.criarordemServico = async function (req, res) {
     let { ordemServico, triagem } = req.body;
@@ -21,12 +22,12 @@ exports.criarordemServico = async function (req, res) {
             if (animal && cliente && medico) {
                 ordemServico.idTriagem = _triagem.id;
                 const _ordemServico = await OrdemServico.create(ordemServico,
-                     { transaction });
+                    { transaction });
                 await transaction.commit();
                 return res.send({ _ordemServico, _triagem });
             } else {
                 return res
-                .send(`${!animal ? "Animal" : !cliente ? "Cliente" : "Médico" } não encontrado.`);
+                    .send(`${!animal ? "Animal" : !cliente ? "Cliente" : "Médico"} não encontrado.`);
             }
         }
         else {
@@ -52,17 +53,17 @@ exports.encontrarOrdemServico = async function (req, res) {
         return res.send(err);
     }
 }
-exports.criarOrdemServico = async function(req, res) {	
-    const idMedico = req.body.idMedico;	
-    const idCliente = req.body.idCliente;	
-    const idAnimal = req.body.idAnimal;	
-    const idtriagem = req.body.idtriagem;	
+exports.criarOrdemServico = async function (req, res) {
+    const idMedico = req.body.idMedico;
+    const idCliente = req.body.idCliente;
+    const idAnimal = req.body.idAnimal;
+    const idtriagem = req.body.idtriagem;
     const profileData = req.body;
     try {
-        const animal = await Animal.findOne({where: {id: idAnimal}});
-        const cliente = await Cliente.findOne({where: {id:idCliente}});
-        const medico = await Medico.findOne({where: {id: idMedico}});
-        const triagem = await Triagem.findOne({where: {id: idtriagem}});
+        const animal = await Animal.findOne({ where: { id: idAnimal } });
+        const cliente = await Cliente.findOne({ where: { id: idCliente } });
+        const medico = await Medico.findOne({ where: { id: idMedico } });
+        const triagem = await Triagem.findOne({ where: { id: idtriagem } });
 
         if (animal && cliente && medico && triagem) {
             const ordemServico = await OrdemServico.create(profileData);
@@ -135,5 +136,14 @@ exports.getOsByAnimal = async function (req, res) {
         }
     } catch (err) {
         res.send(err);
+    }
+}
+exports.solicitarAgendamento = async function (req, res) {
+    try {
+        const solicitacao = await Solicitacao.create(req.body);
+        return res.send(solicitacao);
+    } catch (err) {
+        console.log(err);
+        return res.send(null);
     }
 }
