@@ -1,7 +1,9 @@
 const db = require("../config/db.config.js");
 const Cliente = db.cliente;
 const Pessoa = db.pessoa;
-const Animal = db.animal
+const Animal = db.animal;
+const Solicitacao = db.solicitacao;
+const OrdemServico = db.ordemServico;
 
 exports.criarCliente = async function (req, res) {
     const idpessoa = req.body.idpessoa;
@@ -41,17 +43,30 @@ exports.encontrarAnimalPorCliente = async function (req, res) {
     }
 }
 
-exports.getByIdUser = async function (req,res){
+exports.getByIdUser = async function (req, res) {
     try {
-        const cliente = await Cliente.findOne({where:{idUsuario:req.params.idUser}});
-        if(cliente){
+        const cliente = await Cliente.findOne({ where: { idUsuario: req.params.idUser } });
+        if (cliente) {
             return res.send(cliente);
-        } 
-        return res.send({message:"Cliente não encontrado"});
+        }
+        return res.send({ message: "Cliente não encontrado" });
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
 }
 
-
+exports.getSolicitacoes = async function (req, res) {
+    try {
+        const solicitacoes = await Solicitacao.findAll({
+            include: [{
+                model: OrdemServico,
+                where: { idCliente: req.params.idCliente }
+            }]
+        });
+        res.send(solicitacoes)
+    } catch (err) {
+        console.log(err);
+        res.send(null);
+    }
+}

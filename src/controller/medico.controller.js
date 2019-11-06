@@ -114,13 +114,16 @@ exports.aceitarSolicitacao = async function (req, res) {
             }]
         });
         if (solicit) {
-            console.log("SSSSSSSS ", solicit.dataPara);
             const agendar = await AgendaMedico.create({
                 idMedico: solicit.ordemServico.idMedico,
                 data: solicit.dataPara,
-                horaInicio: solicit.dataPara,
+                horaInicio: solicit.dataPara.toTimeString().split(" ")[0],
                 horaFim: req.body.horaFim,
                 idSolicitacao: solicit.id
+            });
+            await solicit.update({
+                situacao: "confirmada",
+                where: { id: solicit.id }
             });
             res.send(agendar);
         }
