@@ -15,4 +15,6 @@ router.get("/getOsByCliente/:idCliente", ordemServico.getOsByCliente);
 
 router.get("/getOsByAnimal/:idAnimal", ordemServico.getOsByAnimal);
 
+router.post("/solicitarAgendamento", ordemServico.solicitarAgendamento);
+
 module.exports = router;

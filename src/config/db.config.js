@@ -22,6 +22,9 @@ db.ordemServico = require("../model/OrdemServico.js")(sequelize, Sequelize);
 db.pessoa = require("../model/Pessoa.js")(sequelize, Sequelize);
 db.triagem = require("../model/Triagem.js")(sequelize, Sequelize);
 db.usuario = require("../model/Usuario.js")(sequelize, Sequelize);
+db.solicitacao = require("../model/Solicitacao.js")(sequelize, Sequelize);
+db.agendaMedico = require("../model/AgendaMedico.js")(sequelize, Sequelize);
+db.horariosMedico = require("../model/HorariosMedico.js")(sequelize, Sequelize);
 //
 
 
@@ -39,15 +42,20 @@ db.medico.belongsTo(db.pessoa, { foreignKey: "idpessoa" });
 
 db.pessoa.hasOne(db.endereco, { foreignKey: "idpessoa" });
 
-db.ordemServico.belongsTo(db.cliente, {foreignKey: "idcliente"});
-db.ordemServico.belongsTo(db.animal, {foreignKey: "idanimal"});
-db.ordemServico.belongsTo(db.medico, {foreignKey: "idmedico"});
-db.ordemServico.belongsTo(db.triagem, {foreignKey: "idtriagem"});
+db.ordemServico.belongsTo(db.cliente, { foreignKey: "idcliente" });
+db.ordemServico.belongsTo(db.animal, { foreignKey: "idanimal" });
+db.ordemServico.belongsTo(db.medico, { foreignKey: "idmedico" });
+db.ordemServico.belongsTo(db.triagem, { foreignKey: "idtriagem" });
 
-db.triagem.hasOne(db.ordemServico, {foreignKey: "id"});
-db.medico.hasOne(db.ordemServico, {foreignKey: "id"});
-db.animal.hasOne(db.ordemServico, {foreignKey: "id"});
-db.cliente.hasOne(db.ordemServico, {foreignKey: "id"});
+db.triagem.hasOne(db.ordemServico, { foreignKey: "id" });
+db.medico.hasOne(db.ordemServico, { foreignKey: "id" });
+db.animal.hasOne(db.ordemServico, { foreignKey: "id" });
+db.cliente.hasOne(db.ordemServico, { foreignKey: "id" });
+
+db.horariosMedico.belongsTo(db.medico, { foreignKey: "idMedico" });
+db.agendaMedico.belongsTo(db.medico, { foreignKey: "idMedico" });
+
+db.solicitacao.belongsTo(db.ordemServico, { foreignKey: "idOS" });
 //
 
 module.exports = db;

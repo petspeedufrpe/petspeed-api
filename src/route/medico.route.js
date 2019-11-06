@@ -11,5 +11,11 @@ router.get("/all", medico.findAllMedicos);
 
 router.post("/findNome", medico.findMedicoByNome);
 
+router.post("/cadastrarHorario", medico.cadastrarHorario);
+
+router.get("/:idMedico/solicitacoes", medico.getSolicitacoesByMedico);
+
+router.post("/aceitarSolicitacao", medico.aceitarSolicitacao);
+
 module.exports = router;
 

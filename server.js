@@ -17,13 +17,14 @@ const medico = require("./src/route/medico.route.js");
 const ordemServico = require("./src/route/ordemServico.route.js");
 const sintomas = require("./src/route/sintomas.route.js");
 const triagem = require("./src/route/triagem.route.js");
+const agendamento = require("./src/route/agendamento.route.js");
 //
 
 var app = express();
 var bodyParser = require("body-parser");
 const db = require("./src/config/db.config.js");
 
-db.sequelize.sync().then(() => {});
+db.sequelize.sync().then(() => { });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -40,5 +41,6 @@ app.use("/medico", medico);
 app.use("/ordemServico", ordemServico);
 app.use("/triagem", triagem);
 app.use("/sintomas", sintomas);
+app.use("/agendamento", agendamento);
 app.listen(PORT);
 module.exports = app;
