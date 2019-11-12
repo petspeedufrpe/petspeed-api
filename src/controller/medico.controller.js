@@ -1,14 +1,5 @@
 const db = require("../config/db.config.js");
-const Medico = db.medico;
-const Pessoa = db.pessoa;
-const Endereco = db.endereco;
-const Usuario = db.usuario;
-const Horario = db.horariosMedico;
-const Solicitacao = db.solicitacao;
-const OrdemServico = db.ordemServico;
-const AgendaMedico = db.agendaMedico;
-const Op = db.op;
-
+const { Usuario, Pessoa, Endereco, Medico, Op } = db;
 
 exports.criarMedico = async function (req, res) {
     const idpessoa = req.body.idpessoa;

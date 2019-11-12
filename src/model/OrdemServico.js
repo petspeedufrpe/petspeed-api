@@ -31,9 +31,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
         }
     }, {
-        freezeTableName: true,
         tablename: "ordemServico",
-        timestamps: false
     });
     return OrdemServico;
 }

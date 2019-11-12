@@ -1,61 +1,52 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+
+const sequelize = new Sequelize(
+	process.env.DB_DATABASE,
+	process.env.DB_USERNAME,
+	process.env.DB_PASSWORD, {
 	host: process.env.DB_HOST,
 	dialect: process.env.DB_DIALECT,
 	port: process.env.DB_PORT,
+	freezeTableName: true,
+	timestamps: false,
 	timezone: "-03:00"
 });
 
 const db = {};
-
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.op = Sequelize.Op;
+db.Op = Sequelize.Op;
 
+/*
+* Models
+*/
 
-// IMPORTAÇÃO DOS MODELS
-db.animal = require("../model/Animal.js")(sequelize, Sequelize);
-db.cliente = require("../model/Cliente.js")(sequelize, Sequelize);
-db.endereco = require("../model/Endereco.js")(sequelize, Sequelize);
-db.medico = require("../model/Medico.js")(sequelize, Sequelize);
-db.ordemServico = require("../model/OrdemServico.js")(sequelize, Sequelize);
-db.pessoa = require("../model/Pessoa.js")(sequelize, Sequelize);
-db.triagem = require("../model/Triagem.js")(sequelize, Sequelize);
-db.usuario = require("../model/Usuario.js")(sequelize, Sequelize);
-db.solicitacao = require("../model/Solicitacao.js")(sequelize, Sequelize);
-db.agendaMedico = require("../model/AgendaMedico.js")(sequelize, Sequelize);
-db.horariosMedico = require("../model/HorariosMedico.js")(sequelize, Sequelize);
-//
+db.Usuario = require("../model/Usuario.js")(sequelize, Sequelize);
+db.Endereco = require("../model/Endereco.js")(sequelize, Sequelize);
+db.Pessoa = require("../model/Pessoa.js")(sequelize, Sequelize);
+db.Cliente = require("../model/Cliente.js")(sequelize, Sequelize);
+db.Medico = require("../model/Medico.js")(sequelize, Sequelize);
+db.Animal = require("../model/Animal.js")(sequelize, Sequelize);
+db.Triagem = require("../model/Triagem.js")(sequelize, Sequelize);
+db.OrdemServico = require("../model/OrdemServico.js")(sequelize, Sequelize);
 
+/**
+ * Relações
+ */
 
-// CONSTRUINDO AS RELAÇÕES
-db.usuario.hasOne(db.pessoa, { foreignKey: "id" });
-db.pessoa.belongsTo(db.usuario, { foreignKey: "idusuario" });
+db.Pessoa.belongsTo(db.Usuario, { foreignKey: "idusuario" });
+db.Pessoa.hasOne(db.Endereco, { foreignKey: "idpessoa " });
+db.Pessoa.hasMany(db.Animal, { foreignKey: "idPessoa" });
 
-db.pessoa.hasOne(db.cliente, { foreignKey: "id" });
-db.usuario.hasOne(db.cliente, { foreignKey: "id" });
+db.Cliente.belongsTo(db.Usuario, { foreignKey: "idusuario" });
+db.Cliente.belongsTo(db.Pessoa, { foreignKey: "idpessoa" });
 
-db.cliente.belongsTo(db.usuario, { foreignKey: "idusuario" });
-db.cliente.belongsTo(db.pessoa, { foreignKey: "idpessoa" });
+db.Medico.belongsTo(db.Pessoa, { foreignKey: "idpessoa" });
 
-db.medico.belongsTo(db.pessoa, { foreignKey: "idpessoa" });
+db.OrdemServico.belongsTo(db.Cliente, { foreignKey: "idCliente" });
+db.OrdemServico.belongsTo(db.Animal, { foreignKey: "idAnimal" });
+db.OrdemServico.belongsTo(db.Medico, { foreignKey: "idMedico" });
+db.OrdemServico.belongsTo(db.Triagem, { foreignKey: "idTriagem" });
 
-db.pessoa.hasOne(db.endereco, { foreignKey: "idpessoa" });
-
-db.ordemServico.belongsTo(db.cliente, { foreignKey: "idcliente" });
-db.ordemServico.belongsTo(db.animal, { foreignKey: "idanimal" });
-db.ordemServico.belongsTo(db.medico, { foreignKey: "idmedico" });
-db.ordemServico.belongsTo(db.triagem, { foreignKey: "idtriagem" });
-
-db.triagem.hasOne(db.ordemServico, { foreignKey: "id" });
-db.medico.hasOne(db.ordemServico, { foreignKey: "id" });
-db.animal.hasOne(db.ordemServico, { foreignKey: "id" });
-db.cliente.hasOne(db.ordemServico, { foreignKey: "id" });
-
-db.horariosMedico.belongsTo(db.medico, { foreignKey: "idMedico" });
-db.agendaMedico.belongsTo(db.medico, { foreignKey: "idMedico" });
-
-db.solicitacao.belongsTo(db.ordemServico, { foreignKey: "idOS" });
-//
 
 module.exports = db;

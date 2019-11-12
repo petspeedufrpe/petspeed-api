@@ -1,9 +1,5 @@
 const db = require("../config/db.config.js");
-const Cliente = db.cliente;
-const Pessoa = db.pessoa;
-const Animal = db.animal;
-const Solicitacao = db.solicitacao;
-const OrdemServico = db.ordemServico;
+const { Cliente, Pessoa, Animal } = db;
 
 exports.criarCliente = async function (req, res) {
     const idpessoa = req.body.idpessoa;
@@ -17,7 +13,8 @@ exports.criarCliente = async function (req, res) {
             return res.send("Não foi possível realizar o seu cadastro");
         }
     } catch (err) {
-        res.send("entrou aqui");
+        console.log(err);
+        res.send(err);
     }
 }
 exports.editarCliente = async function (req, res) {
@@ -53,20 +50,5 @@ exports.getByIdUser = async function (req, res) {
     }
     catch (err) {
         console.log(err);
-    }
-}
-
-exports.getSolicitacoes = async function (req, res) {
-    try {
-        const solicitacoes = await Solicitacao.findAll({
-            include: [{
-                model: OrdemServico,
-                where: { idCliente: req.params.idCliente }
-            }]
-        });
-        res.send(solicitacoes)
-    } catch (err) {
-        console.log(err);
-        res.send(null);
     }
 }

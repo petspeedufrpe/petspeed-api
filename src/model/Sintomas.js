@@ -1,11 +1,11 @@
-module.exports = (sequelize,Sequelize)=>{
-    const Sintoma = Sequelize.define("Sintomas",{
-        id:{
+module.exports = (sequelize, Sequelize) => {
+    const Sintoma = Sequelize.define("sintomas", {
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement:true            
+            autoIncrement: true
         },
-        nome:{
+        nome: {
             type: Sequelize.STRING,
             allowNull: false,
         },
@@ -13,8 +13,11 @@ module.exports = (sequelize,Sequelize)=>{
             type: Sequelize.STRING,
         },
         idTriagem: {
-            type:Sequelize.INTEGER,
+            type: Sequelize.INTEGER,
             foreignKey: true,
         }
+    }, {
+        tablename: "sintomas",
     });
+    return Sintoma;
 }

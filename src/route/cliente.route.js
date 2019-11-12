@@ -12,7 +12,4 @@ router.get("/cliente/:idPessoa", cliente.encontrarAnimalPorCliente);
 
 router.get("/getClienteByIdUser/:idUser", cliente.getByIdUser);
 
-router.get("/getSolicitacoes/:idCliente", cliente.getSolicitacoes);
-
-
 module.exports = router;

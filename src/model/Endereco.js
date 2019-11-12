@@ -22,9 +22,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DOUBLE,
         }
     }, {
-        freezeTableName: true,
         tablename: "endereco",
-        timestamps: false,
     });
     return Endereco;
 }

@@ -19,9 +19,7 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: true,
         }
     }, {
-        freezeTableName: true,
         tablename: "medico",
-        timestamps: false, 
     });
     return Medico;
 }

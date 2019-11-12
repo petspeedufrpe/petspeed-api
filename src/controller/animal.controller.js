@@ -1,14 +1,11 @@
-const db = require("../config/db.config.js")
-const Animal = db.animal;
-const Cliente = db.cliente;
-const Pessoa = db.pessoa;
+const db = require("../config/db.config.js");
+const { Animal, Cliente } = db;
 
-exports.criarAnimal = async function(req, res) {
+exports.criarAnimal = async function (req, res) {
     const idPessoa = req.body.idPessoa;
     const profileData = req.body;
-
     try {
-        const pessoa = await Pessoa.findOne({where: {id: idPessoa}});
+        const pessoa = await Pessoa.findOne({ where: { id: idPessoa } });
         if (pessoa) {
             const animal = await Animal.create(profileData);
             res.send("Animal cadastrado com sucesso");
@@ -19,12 +16,12 @@ exports.criarAnimal = async function(req, res) {
         res.send(err.message);
     }
 }
-exports.editarAnimal = async function(req, res) {
+exports.editarAnimal = async function (req, res) {
     const idanimal = req.params.idanimal;
     const profileData = req.body;
 
     try {
-        const animalEncontrado = await Animal.findOne({where: {id: idanimal}})
+        const animalEncontrado = await Animal.findOne({ where: { id: idanimal } })
         if (animalEncontrado) {
             const response = await animalEncontrado.update(profileData);
             return res.send("Dados atualizados com sucesso.")
@@ -35,19 +32,21 @@ exports.editarAnimal = async function(req, res) {
         return res.send(err);
     }
 }
-exports.getAnimalById = async function(req, res) {
+exports.getAnimalById = async function (req, res) {
     const { id } = req.params;
     try {
         const animal = await Animal.findByPk(id, {
             attributes: { exclude: ['id'] },
             include: [
-                { model: Cliente,
-                attributes: ['avaliacao'],
-                include: [Pessoa] }
+                {
+                    model: Cliente,
+                    attributes: ['avaliacao'],
+                    include: [Pessoa]
+                }
             ]
         });
         return animal ? res.send(animal) :
-        res.send("Animal não encontrado");      
+            res.send("Animal não encontrado");
     } catch (error) {
         console.log(error);
         return res.send("Não foi possível recuperar o animal.");
@@ -58,7 +57,7 @@ exports.getAnimalByIdCliente = async (req, res) => {
     try {
         const animais = await Animal.findAll(
             {
-                where : { idPessoa : idCliente },
+                where: { idPessoa: idCliente },
                 attributes: { exclude: ['idcliente'] }
             }
         )
@@ -72,7 +71,7 @@ exports.deleteAnimal = async (req, res) => {
     const { id } = req.params;
     try {
         await Animal.destroy({
-            where: { id : id }
+            where: { id: id }
         })
         return res.send("O animal foi removido.");
     } catch (error) {

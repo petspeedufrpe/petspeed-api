@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
-        }, 
+        },
         email: {
             type: Sequelize.STRING,
         },
@@ -14,10 +14,8 @@ module.exports = (sequelize, Sequelize) => {
         foto: {
             type: Sequelize.BLOB('long'),
         },
-    },{
-        freezeTableName: true,
+    }, {
         tablename: "usuario",
-        timestamps: false
     });
     return Usuario;
 }

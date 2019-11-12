@@ -1,18 +1,9 @@
 const db = require("../config/db.config.js");
-const events = require("events");
-const eventEmitter = new events.EventEmitter();
-const Pessoa = db.pessoa;
-const Usuario = db.usuario;
-const Endereco = db.endereco;
-const multer = require('multer');
-const googleMapsClient = require("@google/maps").createClient({
-  key: process.env.API_KEY
-});
+const { Pessoa, Usuario, Endereco } = db;
 
-exports.criarPessoa = async function(req, res) {
+exports.criarPessoa = async function (req, res) {
   const idusuario = req.body.idusuario;
   const profileData = req.body;
-
   try {
     const usuario = await Usuario.findOne({ where: { id: idusuario } });
     if (usuario) {
@@ -25,12 +16,10 @@ exports.criarPessoa = async function(req, res) {
     return res.send("entrou no catch");
   }
 };
-exports.editarPessoa = async function(req, res) {
-  console.log('EU ENTREI AQUI ?????')
+
+exports.editarPessoa = async function (req, res) {
   const { idpessoa } = req.params;
   const profileData = req.body;
-  const image = req.file;
-  console.log(image);
   try {
     const pessoaEncontrada = await Pessoa.findOne({ where: { id: idpessoa } });
     if (pessoaEncontrada) {
@@ -44,7 +33,7 @@ exports.editarPessoa = async function(req, res) {
   }
 };
 
-exports.dbInsert = async function(req, res) {
+exports.dbInsert = async function (req, res) {
   const { endereco, complemento, idpessoa, latitude, longitude } = req.body;
   try {
     const pessoa = await Pessoa.findByPk(idpessoa);
@@ -63,9 +52,9 @@ exports.dbInsert = async function(req, res) {
     console.log(err);
     return res.send("Não foi possível cadastrar o endereço");
   }
-};
+}
 
-exports.findByPk = async function(req, res) {
+exports.findByPk = async function (req, res) {
   try {
     const pessoa = await Pessoa.findByPk(req.params.id);
     res.send(pessoa);
@@ -73,18 +62,19 @@ exports.findByPk = async function(req, res) {
     console.log(err);
     res.send("Erro");
   }
-};
-exports.findByIdUsuario = async function(req, res) {
+}
+
+exports.findByIdUsuario = async function (req, res) {
   idusuario = req.params.idusuario;
   try {
-    const pessoa = await Pessoa.findOne({where: {idusuario: idusuario}, include:[Usuario]})
+    const pessoa = await Pessoa.findOne({ where: { idusuario: idusuario }, include: [Usuario] })
     if (pessoa) {
-      return res.send(pessoa)
+      return res.send(pessoa);
     }
     else {
-      return res.send("Não foi encontrada nenhuma pessoa")
+      return res.send("Não foi encontrada nenhuma pessoa");
     }
   } catch (err) {
-    res.send(err)
+    res.send(err);
   }
 }

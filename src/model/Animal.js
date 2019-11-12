@@ -28,9 +28,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
         }
     }, {
-        freezeTableName: true,
         tablename: "animal",
-        timestamps: false
     });
     return Animal;
 }

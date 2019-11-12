@@ -1,11 +1,5 @@
 const db = require("../config/db.config.js");
-const OrdemServico = db.ordemServico;
-const Medico = db.medico;
-const Cliente = db.cliente;
-const Animal = db.animal;
-const Triagem = db.triagem;
-const Pessoa = db.pessoa;
-const Solicitacao = db.solicitacao;
+const { OrdemServico, Medico, Cliente, Animal, Triagem, Pessoa } = db;
 
 exports.criarordemServico = async function (req, res) {
     let { ordemServico, triagem } = req.body;
@@ -136,14 +130,5 @@ exports.getOsByAnimal = async function (req, res) {
         }
     } catch (err) {
         res.send(err);
-    }
-}
-exports.solicitarAgendamento = async function (req, res) {
-    try {
-        const solicitacao = await Solicitacao.create(req.body);
-        return res.send(solicitacao);
-    } catch (err) {
-        console.log(err);
-        return res.send(null);
     }
 }

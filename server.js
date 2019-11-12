@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-
 const dotenv = require("dotenv-safe");
 
 if (!process.env.NODE_ENV) {
@@ -8,7 +7,10 @@ if (!process.env.NODE_ENV) {
 }
 
 const PORT = process.env.PORT || 3306;
-// IMPORTANDO ROTAS
+
+/**
+ * Require routes
+ */
 const usuario = require("./src/route/usuario.route.js");
 const animal = require("./src/route/animal.route.js");
 const pessoa = require("./src/route/pessoa.route.js");
@@ -17,8 +19,6 @@ const medico = require("./src/route/medico.route.js");
 const ordemServico = require("./src/route/ordemServico.route.js");
 const sintomas = require("./src/route/sintomas.route.js");
 const triagem = require("./src/route/triagem.route.js");
-const agendamento = require("./src/route/agendamento.route.js");
-//
 
 var app = express();
 var bodyParser = require("body-parser");
@@ -41,6 +41,5 @@ app.use("/medico", medico);
 app.use("/ordemServico", ordemServico);
 app.use("/triagem", triagem);
 app.use("/sintomas", sintomas);
-app.use("/agendamento", agendamento);
 app.listen(PORT);
 module.exports = app;

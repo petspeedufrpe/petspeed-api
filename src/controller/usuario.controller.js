@@ -1,10 +1,6 @@
-const db = require("../config/db.config.js");
 const bcrypt = require('bcrypt');
-const Usuario = db.usuario;
-const Cliente = db.cliente;
-const Pessoa = db.pessoa;
-const Medico = db.medico;
-const Endereco = db.endereco;
+const db = require("../config/db.config.js");
+const { Usuario, Cliente, Pessoa, Medico, Endereco } = db;
 var jwt = require('jsonwebtoken');
 
 exports.cadastrarCliente = async function (req, res) {
@@ -91,7 +87,7 @@ exports.cadastrarVeterinario = async function (req, res) {
             complemento: complemento,
             latitude: latitude,
             longitude: longitude,
-            idpessoa : pessoa.id
+            idpessoa: pessoa.id
         }, { transaction });
         await transaction.commit();
         return res.send({ "data": { usuario, pessoa, medico, end } });
@@ -125,6 +121,7 @@ exports.criarUsuario = async function (req, res) {
         return res.send(err)
     }
 }
+
 exports.encontrarUsuarioPorId = async (req, res) => {
     const id = req.params.idUsuario;
     console.log(id)
@@ -197,7 +194,6 @@ exports.login = async function (req, res) {
             idCliente = cliente.id;
         }
         const check = await bcrypt.compare(profileData.senha, usuario.senha);
-        console.log(check);
         if (check) {
             const { id } = usuario
             const token = jwt.sign({ id }, process.env.SECRET, {
@@ -216,11 +212,10 @@ exports.login = async function (req, res) {
                 }
             });
         }
-
         return res.send({ message: "Dados inválidos" });
     }
     catch (err) {
-        return res.send(err.message)
+        return res.send(err.message);
     }
 }
 
@@ -246,19 +241,19 @@ exports.alterarSenha = async function (req, res) {
         return res.send("Error");
     }
 }
-exports.isClienteOrMedico = async function(req, res) {
+exports.isClienteOrMedico = async function (req, res) {
     const idusuario = req.params.idusuario;
     try {
-        const cliente = await Cliente.findOne({where: {idUsuario: idusuario}});
+        const cliente = await Cliente.findOne({ where: { idUsuario: idusuario } });
         if (cliente) {
-            return res.send(cliente)
+            return res.send(cliente);
         } else {
-           const medico = await Medico.findOne({where:{idUsuario: idusuario}});
-           if (medico) {
-               return res.send(medico)
-           }
+            const medico = await Medico.findOne({ where: { idUsuario: idusuario } });
+            if (medico) {
+                return res.send(medico);
+            }
         }
     } catch (err) {
-        return res.send("Usuário não encontrado")
+        return res.send("Usuário não encontrado");
     }
 }
