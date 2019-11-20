@@ -4,12 +4,12 @@ var router = express.Router();
 const cliente = require("../controller/cliente.controller.js");
 
 
-router.post("/cadastrarCliente", cliente.criarCliente);
+router.post("/cadastrar", cliente.create);
 
-router.put("/editarCliente/:idcliente", cliente.editarCliente);
+router.put("/:idcliente/editar", cliente.update);
 
-router.get("/cliente/:idPessoa", cliente.encontrarAnimalPorCliente);
+router.get("/:idPessoa/animais", cliente.getAnimals);
 
-router.get("/getClienteByIdUser/:idUser", cliente.getByIdUser);
+router.get("/user/:idUser", cliente.findByIdUser);
 
 module.exports = router;

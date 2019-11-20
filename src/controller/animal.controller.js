@@ -1,7 +1,7 @@
 const db = require("../config/db.config.js");
 const { Animal, Cliente } = db;
 
-exports.criarAnimal = async function (req, res) {
+exports.create = async function (req, res) {
     const idPessoa = req.body.idPessoa;
     const profileData = req.body;
     try {
@@ -16,7 +16,7 @@ exports.criarAnimal = async function (req, res) {
         res.send(err.message);
     }
 }
-exports.editarAnimal = async function (req, res) {
+exports.update = async function (req, res) {
     const idanimal = req.params.idanimal;
     const profileData = req.body;
 
@@ -32,7 +32,7 @@ exports.editarAnimal = async function (req, res) {
         return res.send(err);
     }
 }
-exports.getAnimalById = async function (req, res) {
+exports.getById = async function (req, res) {
     const { id } = req.params;
     try {
         const animal = await Animal.findByPk(id, {
@@ -52,7 +52,7 @@ exports.getAnimalById = async function (req, res) {
         return res.send("Não foi possível recuperar o animal.");
     }
 }
-exports.getAnimalByIdCliente = async (req, res) => {
+exports.getByIdCliente = async (req, res) => {
     const { idCliente } = req.params;
     try {
         const animais = await Animal.findAll(
@@ -67,7 +67,7 @@ exports.getAnimalByIdCliente = async (req, res) => {
         return res.send("Não foi possível listar os animais do cliente.");
     }
 }
-exports.deleteAnimal = async (req, res) => {
+exports.delete = async (req, res) => {
     const { id } = req.params;
     try {
         await Animal.destroy({

@@ -1,7 +1,7 @@
 const db = require("../config/db.config.js");
 const { Usuario, Pessoa, Endereco, Medico, Op } = db;
 
-exports.criarMedico = async function (req, res) {
+exports.create = async function (req, res) {
     const idpessoa = req.body.idpessoa;
     const crmv = req.body.crmv;
     const uf = req.body.uf;
@@ -20,7 +20,7 @@ exports.criarMedico = async function (req, res) {
         return res.send(err);
     }
 }
-exports.editarMedico = async function (req, res) {
+exports.update = async function (req, res) {
     const idmedico = req.params.idmedico;
     const profileData = req.body;
 
@@ -28,16 +28,16 @@ exports.editarMedico = async function (req, res) {
         const medicoEncontrado = await Medico.findOne({ where: { id: idmedico } });
         if (medicoEncontrado) {
             medicoEncontrado.update(profileData);
-            return res.send("Dados atualizados com sucesso");
+            return res.send(true);
         } else {
-            return res.send("Erro ao atualizar");
+            return res.send(false);
         }
     } catch (err) {
         return res.send(err);
     }
 }
 
-exports.findAllMedicos = async function (req, res) {
+exports.findAll = async function (req, res) {
     try {
         const medicos = await Medico.findAll({
             include: [
@@ -52,11 +52,15 @@ exports.findAllMedicos = async function (req, res) {
     }
 }
 
-exports.findMedicoByNome = async function (req, res) {
+exports.findByName = async function (req, res) {
     try {
         const medicos = await Medico.findAll({
             include: [
-                { model: Pessoa, where: { nome: { [Op.startsWith]: req.body.nome } } }
+                {
+                    model: Pessoa,
+                    where: { nome: { [Op.startsWith]: req.body.nome } },
+                    include: [Endereco]
+                }
             ]
         });
         if (medicos.length) {
@@ -65,61 +69,6 @@ exports.findMedicoByNome = async function (req, res) {
     } catch (err) {
         console.log(err);
         return res.send("Errou ao buscar médicos veterinários");
-
     }
 }
 
-exports.cadastrarHorario = async function (req, res) {
-    try {
-        const horario = await Horario.create(req.body);
-        return res.send(horario);
-    } catch (err) {
-        console.log(err);
-        return res.send(null);
-    }
-}
-
-exports.getSolicitacoesByMedico = async function (req, res) {
-    try {
-        const solicitacoes = await Solicitacao.findAll({
-            include: [{
-                model: OrdemServico,
-                where: { idMedico: req.params.idMedico },
-                required: true
-            }]
-        });
-        res.send(solicitacoes);
-    } catch (err) {
-        console.log(err);
-        res.send(null);
-    }
-}
-exports.aceitarSolicitacao = async function (req, res) {
-    try {
-        const solicit = await Solicitacao.findOne({
-            where: {
-                id: req.body.idSolicit
-            },
-            include: [{
-                model: OrdemServico
-            }]
-        });
-        if (solicit) {
-            const agendar = await AgendaMedico.create({
-                idMedico: solicit.ordemServico.idMedico,
-                data: solicit.dataPara,
-                horaInicio: solicit.dataPara.toTimeString().split(" ")[0],
-                horaFim: req.body.horaFim,
-                idSolicitacao: solicit.id
-            });
-            await solicit.update({
-                situacao: "confirmada",
-                where: { id: solicit.id }
-            });
-            res.send(agendar);
-        }
-    } catch (err) {
-        console.log(err);
-        res.send(null);
-    }
-}

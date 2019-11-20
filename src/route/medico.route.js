@@ -3,12 +3,12 @@ var router = express.Router();
 
 const medico = require("../controller/medico.controller.js");
 
-router.post("/criarMedico", medico.criarMedico);
+router.post("/cadastrar", medico.create);
 
-router.put("/editarMedico/:idmedico", medico.editarMedico);
+router.patch("/:idmedico/editar", medico.update);
 
-router.get("/all", medico.findAllMedicos);
+router.get("/all", medico.findAll);
 
-router.post("/findNome", medico.findMedicoByNome);
+router.post("/findByName", medico.findByName);
 
 module.exports = router;

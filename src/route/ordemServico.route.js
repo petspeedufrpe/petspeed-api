@@ -3,16 +3,16 @@ var router = express.Router();
 
 const ordemServico = require("../controller/ordemServico.controller.js");
 
-router.post("/criarOrdemServico", ordemServico.criarordemServico);
+router.post("/cadastrar", ordemServico.create);
 
-router.get("/listarOrdemServico/:idOrdemServico", ordemServico.encontrarOrdemServico);
+router.get("/all", ordemServico.findAll);
 
-router.get("/findAllOrdemServico", ordemServico.findAllOS);
+router.get("/medico/:idMedico", ordemServico.findByIdMedico);
 
-router.get("/getOsByMedico/:idMedico", ordemServico.getOsByMedico);
+router.get("/cliente/:idCliente", ordemServico.findByIdCliente);
 
-router.get("/getOsByCliente/:idCliente", ordemServico.getOsByCliente);
+router.get("/animal/:idAnimal", ordemServico.findByIdAnimal);
 
-router.get("/getOsByAnimal/:idAnimal", ordemServico.getOsByAnimal);
+router.get("/:idOrdemServico", ordemServico.findById);
 
 module.exports = router;

@@ -7,10 +7,13 @@ const sequelize = new Sequelize(
 	host: process.env.DB_HOST,
 	dialect: process.env.DB_DIALECT,
 	port: process.env.DB_PORT,
-	freezeTableName: true,
-	timestamps: false,
-	timezone: "-03:00"
+	timezone: "-03:00",
+	define: {
+		freezeTableName: true,
+		timestamps: false,
+	}
 });
+
 
 const db = {};
 db.Sequelize = Sequelize;
@@ -35,7 +38,7 @@ db.OrdemServico = require("../model/OrdemServico.js")(sequelize, Sequelize);
  */
 
 db.Pessoa.belongsTo(db.Usuario, { foreignKey: "idusuario" });
-db.Pessoa.hasOne(db.Endereco, { foreignKey: "idpessoa " });
+db.Pessoa.hasOne(db.Endereco, { foreignKey: "idPessoa" });
 db.Pessoa.hasMany(db.Animal, { foreignKey: "idPessoa" });
 
 db.Cliente.belongsTo(db.Usuario, { foreignKey: "idusuario" });

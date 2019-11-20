@@ -1,7 +1,7 @@
 const db = require("../config/db.config.js");
 const { Cliente, Pessoa, Animal } = db;
 
-exports.criarCliente = async function (req, res) {
+exports.create = async function (req, res) {
     const idpessoa = req.body.idpessoa;
     const profileData = req.body;
     try {
@@ -17,7 +17,7 @@ exports.criarCliente = async function (req, res) {
         res.send(err);
     }
 }
-exports.editarCliente = async function (req, res) {
+exports.update = async function (req, res) {
     const idcliente = req.params.idcliente;
     const profileData = req.body;
     try {
@@ -27,7 +27,7 @@ exports.editarCliente = async function (req, res) {
         res.send("entrou no catch");
     }
 }
-exports.encontrarAnimalPorCliente = async function (req, res) {
+exports.getAnimals = async function (req, res) {
     try {
         const animais = await Animal.findAll({ where: { idpessoa: req.params.idpessoa }, attributes: ['id', 'nome', 'raca', 'peso', 'nascimento'] });
         if (animais) {
@@ -40,7 +40,7 @@ exports.encontrarAnimalPorCliente = async function (req, res) {
     }
 }
 
-exports.getByIdUser = async function (req, res) {
+exports.findByIdUser = async function (req, res) {
     try {
         const cliente = await Cliente.findOne({ where: { idUsuario: req.params.idUser } });
         if (cliente) {

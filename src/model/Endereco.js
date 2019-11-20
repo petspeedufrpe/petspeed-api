@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
         complemento: {
             type: Sequelize.STRING,
         },
-        idpessoa: {
+        idPessoa: {
             type: Sequelize.INTEGER,
             foreignKey: true,
         },

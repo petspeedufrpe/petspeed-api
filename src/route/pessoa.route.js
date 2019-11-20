@@ -5,14 +5,14 @@ const multerConfig = require("../config/multer");
 var verifyJWT = require("../config/user.auth.js");
 const pessoa = require("../controller/pessoa.controller.js");
 
-router.post("/cadastrarPessoa", pessoa.criarPessoa);
+router.post("/cadastrar", pessoa.create);
 
-router.put("/editarPessoa/:idpessoa", multer(multerConfig).single("file"), pessoa.editarPessoa);
+router.patch("/:idpessoa/editar", multer(multerConfig).single("file"), pessoa.update);
 
-router.post("/cadastrarEndereco", pessoa.dbInsert);
+router.post("/cadastrarEndereco", pessoa.createAddress);
 
-router.get("/:id", pessoa.findByPk);
+router.get("/:id", pessoa.findById);
 
-router.get("/encontrarPorIdUsuario/:idusuario", pessoa.findByIdUsuario);
+router.get("/usuario/:idusuario", pessoa.findByIdUsuario);
 
 module.exports = router;

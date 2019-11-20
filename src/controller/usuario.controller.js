@@ -3,7 +3,7 @@ const db = require("../config/db.config.js");
 const { Usuario, Cliente, Pessoa, Medico, Endereco } = db;
 var jwt = require('jsonwebtoken');
 
-exports.cadastrarCliente = async function (req, res) {
+exports.createCliente = async function (req, res) {
     let transaction;
     try {
         transaction = await db.sequelize.transaction();
@@ -44,12 +44,11 @@ exports.cadastrarCliente = async function (req, res) {
     }
 }
 
-exports.cadastrarVeterinario = async function (req, res) {
+exports.createMedico = async function (req, res) {
     let transaction;
     try {
         transaction = await db.sequelize.transaction();
         // Usuario
-        console.log(req.body);
         let { senha, email } = req.body.usuario;
         senha = await bcrypt.hash(senha, 10);
         let usuario = await Usuario.findOne({ where: { email } });
@@ -98,7 +97,7 @@ exports.cadastrarVeterinario = async function (req, res) {
     }
 }
 
-exports.criarUsuario = async function (req, res) {
+exports.create = async function (req, res) {
     const profileData = req.body;
     const emailUsuario = req.body.email;
     try {
@@ -108,21 +107,17 @@ exports.criarUsuario = async function (req, res) {
         const usuarioExistente = await Usuario.findOne({ where: { email: emailUsuario } })
         if (!usuarioExistente) {
             const usuario = await Usuario.create(profileData);
+            return res.send(usuario);
         }
         else {
             return res.send("Já existe este e-mail cadastrado no sistema")
-        }
-        if (usuario) {
-            return res.send(usuario);
-        } else {
-            return res.send("Não foi possível realizar cadastro de usuário")
         }
     } catch (err) {
         return res.send(err)
     }
 }
 
-exports.encontrarUsuarioPorId = async (req, res) => {
+exports.findById = async (req, res) => {
     const id = req.params.idUsuario;
     console.log(id)
     try {
@@ -137,7 +132,7 @@ exports.encontrarUsuarioPorId = async (req, res) => {
     }
 }
 
-exports.deletarUsuarioPorId = async (req, res) => {
+exports.delete = async (req, res) => {
     const id = req.params.idUsuario;
 
     try {
@@ -166,14 +161,14 @@ exports.login = async function (req, res) {
                 email: emailUsuario
             }
         });
+        if (!usuario) {
+            return res.send({ message: "Email não cadastrado no sistema" });
+        }
         const pessoa = await Pessoa.findOne({
             where: {
                 idUsuario: usuario.id
             }
         });
-        if (!usuario) {
-            return res.send({ message: "Email não cadastrado no sistema" });
-        }
         const cliente = await Cliente.findOne({
             where: {
                 idUsuario: usuario.id
@@ -215,11 +210,12 @@ exports.login = async function (req, res) {
         return res.send({ message: "Dados inválidos" });
     }
     catch (err) {
+        console.log(err);
         return res.send(err.message);
     }
 }
 
-exports.alterarSenha = async function (req, res) {
+exports.updateSenha = async function (req, res) {
     try {
         var { id, senhaAntiga, senhaNova } = req.body;
         const usuario = await Usuario.findByPk(id);
@@ -244,16 +240,18 @@ exports.alterarSenha = async function (req, res) {
 exports.isClienteOrMedico = async function (req, res) {
     const idusuario = req.params.idusuario;
     try {
-        const cliente = await Cliente.findOne({ where: { idUsuario: idusuario } });
-        if (cliente) {
-            return res.send(cliente);
-        } else {
-            const medico = await Medico.findOne({ where: { idUsuario: idusuario } });
-            if (medico) {
-                return res.send(medico);
+        const pessoa = await Pessoa.findOne({ where: { idUsuario: idusuario } });
+        if (pessoa) {
+            const cliente = await Cliente.findOne({ where: { idPessoa: pessoa.id } });
+            if (cliente) {
+                return res.send(cliente);
             }
+            const medico = await Medico.findOne({ where: { idPessoa: pessoa.id } });
+            return res.send(medico);
         }
+        return res.send("Usuário não encontrado")
     } catch (err) {
-        return res.send("Usuário não encontrado");
+        console.log(err);
+        return res.send(false);
     }
 }

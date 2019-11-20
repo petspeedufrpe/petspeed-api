@@ -3,14 +3,14 @@ var router = express.Router();
 
 const animal = require("../controller/animal.controller.js");
 
-router.post("/cadastrarAnimal", animal.criarAnimal);
+router.post("/cadastrar", animal.create);
 
-router.put("/editarAnimal/:idanimal", animal.editarAnimal);
+router.patch("/editar/:idanimal", animal.update);
 
-router.get("/cliente/:idCliente", animal.getAnimalByIdCliente);
+router.get("/cliente/:idCliente", animal.getByIdCliente);
 
-router.get("/:id", animal.getAnimalById);
+router.get("/:id", animal.getById);
 
-router.delete("/:id", animal.deleteAnimal);
+router.delete("/:id", animal.delete);
 
 module.exports = router;

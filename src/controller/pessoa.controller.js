@@ -1,7 +1,7 @@
 const db = require("../config/db.config.js");
 const { Pessoa, Usuario, Endereco } = db;
 
-exports.criarPessoa = async function (req, res) {
+exports.create = async function (req, res) {
   const idusuario = req.body.idusuario;
   const profileData = req.body;
   try {
@@ -9,15 +9,14 @@ exports.criarPessoa = async function (req, res) {
     if (usuario) {
       const pessoa = await Pessoa.create(profileData);
       return res.send(pessoa);
-    } else {
-      return res.send("Não foi possível encontrar o usuário.");
     }
+    return res.send("Não foi possível encontrar o usuário.");
   } catch (err) {
-    return res.send("entrou no catch");
+    return res.send(err.message);
   }
 };
 
-exports.editarPessoa = async function (req, res) {
+exports.update = async function (req, res) {
   const { idpessoa } = req.params;
   const profileData = req.body;
   try {
@@ -25,15 +24,14 @@ exports.editarPessoa = async function (req, res) {
     if (pessoaEncontrada) {
       await pessoaEncontrada.update(profileData);
       return res.send("Atualizado com sucesso");
-    } else {
-      return res.send("Pessoa não encontrada.");
     }
+    return res.send("Pessoa não encontrada.");
   } catch (err) {
-    res.send(err);
+    res.send(err.message);
   }
 };
 
-exports.dbInsert = async function (req, res) {
+exports.createAddress = async function (req, res) {
   const { endereco, complemento, idpessoa, latitude, longitude } = req.body;
   try {
     const pessoa = await Pessoa.findByPk(idpessoa);
@@ -50,17 +48,17 @@ exports.dbInsert = async function (req, res) {
     return res.send("Pessoa não encontrada");
   } catch (err) {
     console.log(err);
-    return res.send("Não foi possível cadastrar o endereço");
+    return res.send(err.message);
   }
 }
 
-exports.findByPk = async function (req, res) {
+exports.findById = async function (req, res) {
   try {
     const pessoa = await Pessoa.findByPk(req.params.id);
     res.send(pessoa);
   } catch (err) {
     console.log(err);
-    res.send("Erro");
+    res.send(err.message);
   }
 }
 
@@ -71,10 +69,8 @@ exports.findByIdUsuario = async function (req, res) {
     if (pessoa) {
       return res.send(pessoa);
     }
-    else {
-      return res.send("Não foi encontrada nenhuma pessoa");
-    }
+    return res.send("Não foi encontrada nenhuma pessoa");
   } catch (err) {
-    res.send(err);
+    res.send(err.message);
   }
 }
